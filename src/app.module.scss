@@ -1,0 +1,9 @@
+.switch {
+    position: relative;
+
+    > div {
+        position: absolute;
+        width: 100%;
+        min-height: 100vh;
+    }
+}

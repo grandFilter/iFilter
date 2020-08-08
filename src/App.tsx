@@ -1,26 +1,30 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Router, Route } from 'react-router-dom';
+import { AnimatedSwitch } from 'react-router-transition';
+import history from '@/utils/history';
+
+import LayoutIndex from '@/comtainers/Layout';
+import HomeIndex from '@/comtainers/Home';
+
+import styles from './app.module.scss';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <Router history={history}>
+            <AnimatedSwitch
+                atEnter={{ opacity: 0 }}
+                atLeave={{ opacity: 0 }}
+                atActive={{ opacity: 1 }}
+                className={styles.switch}
+            >
+                <LayoutIndex>
+                    <Route path="/" exact>
+                        <HomeIndex />
+                    </Route>
+                </LayoutIndex>
+            </AnimatedSwitch>
+        </Router>
+    );
 }
 
 export default App;
