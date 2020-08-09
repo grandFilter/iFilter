@@ -6,7 +6,7 @@ import history from '@/utils/history';
 import LayoutIndex from '@/comtainers/Layout';
 import HomeIndex from '@/comtainers/Home';
 
-import styles from './app.module.scss';
+import styles from './app.module.less';
 
 function App() {
     return (
