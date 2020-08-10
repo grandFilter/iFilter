@@ -1,6 +1,12 @@
 import { createStore, createTypedHooks } from 'easy-peasy';
 
-export const storeModel = {};
+import common from './common';
+import effect from './effect';
+
+export const storeModel = {
+    common,
+    effect,
+};
 
 export const store = createStore(storeModel);
 

@@ -5,6 +5,7 @@ import history from '@/utils/history';
 
 import LayoutIndex from '@/comtainers/Layout';
 import HomeIndex from '@/comtainers/Home';
+import EffectIndex from '@/comtainers/Effect';
 
 import styles from './app.module.less';
 
@@ -20,6 +21,9 @@ function App() {
                 <LayoutIndex>
                     <Route path="/" exact>
                         <HomeIndex />
+                    </Route>
+                    <Route path="/effect">
+                        <EffectIndex />
                     </Route>
                 </LayoutIndex>
             </AnimatedSwitch>
