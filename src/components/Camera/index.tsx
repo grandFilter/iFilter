@@ -22,6 +22,8 @@ export default function CameraIndex(props: { visible: boolean; onClose: Function
     const canvasEl = useRef<HTMLCanvasElement>(null),
         videoEl = useRef<HTMLVideoElement>(null);
 
+    const inputEl = useRef<HTMLInputElement>(null);
+
     const playingHandler = () => {
         const video = videoEl.current;
         if (!video) return;
@@ -84,6 +86,19 @@ export default function CameraIndex(props: { visible: boolean; onClose: Function
         closeHandle();
     };
 
+    const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(e);
+        const file = (inputEl.current?.files || [])[0];
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            const base64 = reader.result;
+            onInput && onInput(base64);
+            closeHandle();
+        };
+        reader.readAsDataURL(file);
+    };
+
     return (
         <div className={CN([styles.camera, visible ? styles.show : ''])}>
             <div className={styles.video}>
@@ -104,7 +119,7 @@ export default function CameraIndex(props: { visible: boolean; onClose: Function
                 &times;
             </span>
             <button className={styles.icon}>
-                <input type="file" accept="image/*" />
+                <input ref={inputEl} type="file" accept="image/*" onChange={changeHandler} />
             </button>
             <button onClick={shotHandler} className={styles.shot}></button>
         </div>

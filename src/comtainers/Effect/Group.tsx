@@ -11,11 +11,13 @@ export default function EffectGroup() {
 
     return (
         <ul className={styles.group}>
-            {list.map(({ filter, name }, index) => (
+            {list.map(({ name, filter, after = {}, before = {} }, index) => (
                 <li key={index} onClick={() => setActive(index)}>
                     <figure style={{ filter }}>
+                        <i className={styles.before} style={before}></i>
                         <img src={origin} alt="" width="100%" />
-                        <figcaption>{name}</figcaption>
+                        <i className={styles.after} style={after}></i>
+                        <figcaption>#{name}</figcaption>
                     </figure>
                 </li>
             ))}
