@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route } from 'react-router-dom';
+import { Router, Route, BrowserRouter } from 'react-router-dom';
 import { AnimatedSwitch } from 'react-router-transition';
 import history from '@/utils/history';
 
@@ -19,12 +19,14 @@ function App() {
                 className={styles.switch}
             >
                 <LayoutIndex>
-                    <Route path="/" exact>
-                        <HomeIndex />
-                    </Route>
-                    <Route path="/effect">
-                        <EffectIndex />
-                    </Route>
+                    <BrowserRouter basename="/wjy/a">
+                        <Route path="/" exact>
+                            <HomeIndex />
+                        </Route>
+                        <Route path="/effect">
+                            <EffectIndex />
+                        </Route>
+                    </BrowserRouter>
                 </LayoutIndex>
             </AnimatedSwitch>
         </Router>

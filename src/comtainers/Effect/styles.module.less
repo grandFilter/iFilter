@@ -26,15 +26,20 @@
     }
 }
 
+.canvas {
+    width: 100%;
+    display: none;
+}
+
 .group {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     list-style: none;
-    padding: 0;
-
-    border: 1px solid lightgray;
+    background-color: rgba(0, 0, 0, 0.8);
+    margin: 0;
+    padding: 0 15px;
     display: flex;
     overflow-x: scroll;
     scroll-padding: 0 50%;
@@ -47,13 +52,30 @@
         border-radius: 3px;
         font-size: 0;
         margin-right: 5px;
-        width: 200px;
-        height: 200px;
+        padding: 10px 0;
+
+        &.active {
+            h2 {
+                color: #fff;
+            }
+            figure {
+                border-color: #e31937;
+            }
+        }
+
+        h2 {
+            font-size: 20px;
+            color: #999;
+            text-align: center;
+            margin: 0 0 15px;
+        }
 
         figure {
             position: relative;
-            width: 200px;
-            height: 200px;
+            width: 180px;
+            height: 180px;
+            border: 4px solid transparent;
+
             .before {
                 display: block;
                 height: 100%;
@@ -81,7 +103,7 @@
                 font-size: 30px;
                 line-height: normal;
                 position: absolute;
-                bottom: 20px;
+                top: 0;
                 right: 0;
                 padding: 8px 12px;
                 background: #000;

@@ -3,7 +3,7 @@ import { action, computed, thunk } from 'easy-peasy';
 import { IEffectModel } from '@/types/store/effect';
 
 const effectModel: IEffectModel = {
-    active: -1,
+    active: 0,
     CSSgramList: [
         {
             name: '1997',

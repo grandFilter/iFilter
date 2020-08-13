@@ -1,13 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { Assign } from 'utility-types';
+// import { Assign } from 'utility-types';
 import CN from 'classnames';
 import styles from './styles.module.less';
-
-const getUserMedia =
-    navigator.getUserMedia ||
-    (navigator as Assign<typeof navigator, { webkitGetUserMedia: any }>).webkitGetUserMedia ||
-    (navigator as Assign<typeof navigator, { mozGetUserMedia: any }>).mozGetUserMedia ||
-    (navigator as Assign<typeof navigator, { msGetUserMedia: any }>).msGetUserMedia;
 
 export default function CameraIndex(props: { visible: boolean; onClose: Function; onInput?: Function }) {
     const [playing, setPlaying] = useState(false);
@@ -32,10 +26,11 @@ export default function CameraIndex(props: { visible: boolean; onClose: Function
 
         setWidth(offsetWidth * (vh / offsetHeight));
         setHeight(vh);
-        setPlaying(true);
+        // setPlaying(true);
     };
 
     const webRtcCamera = () => {
+        const getUserMedia = (navigator.mediaDevices || {}).getUserMedia;
         if (!getUserMedia) {
             return Promise.reject({ msg: 'WebRTC is not surppotted' });
         }
@@ -44,12 +39,9 @@ export default function CameraIndex(props: { visible: boolean; onClose: Function
         return navigator.mediaDevices
             .getUserMedia({ audio: false, video: true })
             .then(stream => {
-                /* use the stream */
-                // console.log(stream);
                 if ('srcObject' in video) {
                     video.srcObject = stream;
                 } else {
-                    // Avoid using this in new browsers, as it is going away.
                     video.src = window.URL.createObjectURL(stream);
                 }
                 video.onloadedmetadata = () => video.play();
@@ -110,6 +102,7 @@ export default function CameraIndex(props: { visible: boolean; onClose: Function
                         x-webkit-airplay="airplay"
                         webkit-playsinline="playsinline"
                         playsInline
+                        muted
                     />
                 )}
             </div>

@@ -6,6 +6,7 @@ import { useStoreActions } from '@/store';
 // import CarouselIndex from '@/components/Carousel';
 // import CarouselSlider from '@/components/Carousel/Slider';
 import Camera from '@/components/Camera';
+import { CameraIcon } from '@/components/Icon';
 
 import styles from './styles.module.less';
 
@@ -23,9 +24,13 @@ export default function HomeIndex() {
         <>
             {/* <CarouselIndex /> */}
             {/* <CarouselSlider /> */}
+            <header className={styles.header}></header>
             <button className={styles.button} onClick={() => setVisible(true)}>
-                Camera
+                <CameraIcon className={styles.icon} />
+                <br />
+                <strong>Camera</strong>
             </button>
+
             <Camera visible={visible} onClose={() => setVisible(false)} onInput={inputHandle} />
         </>
     );
