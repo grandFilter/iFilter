@@ -6,6 +6,10 @@ const effectModel: IEffectModel = {
     active: 0,
     CSSgramList: [
         {
+            name: 'NONE',
+            filter: ``,
+        },
+        {
             name: '1997',
             filter: `contrast(1.1) brightness(1.1) saturate(1.3)`,
             after: {

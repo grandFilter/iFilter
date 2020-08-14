@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import Group from './Group';
+import FilterIndex from './Filter';
 
 import { useStoreState } from '@/store';
 
@@ -42,7 +42,10 @@ export default function EffectIndex() {
                 <i className={styles.after} style={after}></i>
             </figure>
             <canvas className={styles.canvas} ref={canvasRef} height={config.height} width={config.width} />
-            <Group />
+
+            <aside className={styles.group}>
+                <FilterIndex />
+            </aside>
         </>
     );
 }
