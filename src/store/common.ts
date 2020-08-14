@@ -1,4 +1,4 @@
-import { action, computed, thunk } from 'easy-peasy';
+import { action } from 'easy-peasy';
 import { STORAGE_BASE64 } from '@/constants';
 import { setItem, getItem } from '@/utils/storage';
 
