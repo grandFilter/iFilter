@@ -9,14 +9,17 @@ import filterStyles from './filter.module.less';
 
 export default function FilterCSSIndex() {
     const base64 = useStoreState(({ common }) => common.base64);
-    const { className } = useStoreState(({ effect }) => effect.activeFilter);
+    const { className, opacity } = useStoreState(({ effect }) => effect.activeFilter);
 
     return (
         <>
             <div className={styles.filter}>
-                <figure className={CN([filterStyles[className]])}>
+                <picture>
                     <img src={base64} alt="" />
-                </figure>
+                    <figure className={CN([filterStyles[className]])} style={{ opacity }}>
+                        <img src={base64} alt="" />
+                    </figure>
+                </picture>
             </div>
 
             <aside className={styles.group}>

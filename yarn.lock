@@ -1666,6 +1666,11 @@
     "@types/testing-library__dom" "*"
     pretty-format "^25.1.0"
 
+"@types/wnumb@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.npm.taobao.org/@types/wnumb/download/@types/wnumb-1.2.0.tgz#de93478a0d10ea2e27809b5e3fc90ac52c1acd43"
+  integrity sha1-3pNHig0Q6i4ngJteP8kKxSwazUM=
+
 "@types/yargs-parser@*":
   version "15.0.0"
   resolved "https://registry.yarnpkg.com/@types/yargs-parser/-/yargs-parser-15.0.0.tgz#cb3f9f741869e20cce330ffbeb9271590483882d"
@@ -7535,6 +7540,18 @@ normalize-url@^3.0.0:
   resolved "https://registry.yarnpkg.com/normalize-url/-/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
   integrity sha512-U+JJi7duF1o+u2pynbp2zXDW2/PADgC30f0GsHZtRh+HOcXHnw137TrNlyxxRvWW5fjKd3bcLHPxofWuCjaeZg==
 
+nouislider-react@^3.3.8:
+  version "3.3.8"
+  resolved "https://registry.npm.taobao.org/nouislider-react/download/nouislider-react-3.3.8.tgz#224540f39848e1a52070127f16460ef8f03152a7"
+  integrity sha1-IkVA85hI4aUgcBJ/FkYO+PAxUqc=
+  dependencies:
+    nouislider "^14.5.0"
+
+nouislider@^14.5.0:
+  version "14.6.0"
+  resolved "https://registry.npm.taobao.org/nouislider/download/nouislider-14.6.0.tgz#10c409e4f9d5d0e72a3b1c2adcf827e9c3054e39"
+  integrity sha1-EMQJ5PnV0OcqOxwq3Pgn6cMFTjk=
+
 npm-run-path@^2.0.0:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/npm-run-path/-/npm-run-path-2.0.2.tgz#35a9232dfa35d7067b4cb2ddf2357b1871536c5f"
@@ -11348,6 +11365,11 @@ wide-align@^1.1.0:
   integrity sha1-rgdOa9wMFKQx6ATmJFScYzsABFc=
   dependencies:
     string-width "^1.0.2 || 2"
+
+wnumb@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.npm.taobao.org/wnumb/download/wnumb-1.2.0.tgz#f6fa5bfa739b9ca3b1e472094e1feeeb189484d9"
+  integrity sha1-9vpb+nObnKOx5HIJTh/u6xiUhNk=
 
 word-wrap@~1.2.3:
   version "1.2.3"
