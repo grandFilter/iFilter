@@ -4,13 +4,13 @@ import CN from 'classnames';
 import styles from './styles.module.less';
 
 export default function CameraIndex(props: { visible: boolean; onClose: Function; onInput?: Function }) {
-    const [playing, setPlaying] = useState(false);
+    // const [playing, setPlaying] = useState(false);
     const [width, setWidth] = useState(0);
     const [height, setHeight] = useState(0);
 
     const { visible, onClose, onInput } = props;
     const closeHandle = () => {
-        setPlaying(false);
+        // setPlaying(false);
         onClose();
     };
     const canvasEl = useRef<HTMLCanvasElement>(null),
@@ -60,19 +60,24 @@ export default function CameraIndex(props: { visible: boolean; onClose: Function
     });
 
     const shotHandler = () => {
-        console.log('shot');
         const canvas = canvasEl.current;
         const video = videoEl.current;
+        console.log('shot', video, video);
         if (!canvas || !video) return;
 
-        const { width, height } = canvas;
-        const ctx = canvas.getContext('2d');
+        
 
+        const { width, height } = canvas;
+        console.log('width=', width, height);
+        const ctx = canvas.getContext('2d');
+        console.log('ctx', ctx);
         if (!ctx) return;
 
         video.pause();
         ctx.drawImage(video, 0, 0, width, height);
         const base64 = canvas.toDataURL('image/jpeg');
+
+        console.log('base64');
 
         onInput && onInput(base64);
         closeHandle();
@@ -106,7 +111,7 @@ export default function CameraIndex(props: { visible: boolean; onClose: Function
                     />
                 )}
             </div>
-            {playing && <canvas ref={canvasEl} width={width} height={height} />}
+            {<canvas ref={canvasEl} width={width} height={height} />}
             <div className={styles.mask}></div>
             <span role="button" className={styles.close} onClick={closeHandle}>
                 &times;

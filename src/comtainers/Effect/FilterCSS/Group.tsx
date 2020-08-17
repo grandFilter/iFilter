@@ -7,8 +7,8 @@ import SliderIndex from '@/components/Slider';
 import styles from './styles.module.less';
 import filterStyles from './filter.module.less';
 
-export default function FilterCSSGroup() {
-    const { opacity } = useStoreState(({ effect }) => effect.activeFilter);
+export default function FilterCSSGroup({ onInput, opacity }: { onInput?: Function; opacity: number }) {
+    const { opacity: originOpacity } = useStoreState(({ effect }) => effect.activeFilter);
 
     const base64 = useStoreState(({ common }) => common.base64);
     const list = useStoreState(({ effect }) => effect.CSSgramList);
@@ -20,8 +20,9 @@ export default function FilterCSSGroup() {
 
     const [strength, setStrength] = useState(false);
 
-    const onSelectAndEdit = (index: number) => {
+    const onSelectAndEdit = (index: number, opacity: number) => {
         if (active === index) {
+            setOpacity(opacity);
             setStrength(true);
         } else {
             setActive(index);
@@ -29,10 +30,13 @@ export default function FilterCSSGroup() {
     };
 
     const onUpdate = (opacity: number) => {
-        setOpacity(opacity);
+        // setOpacity(opacity);
+        onInput && onInput(opacity);
     };
 
     const onDone = () => {
+        setOpacity(opacity);
+        console.log('onDone', opacity);
         setStrength(false);
     };
     const onCancel = () => {
@@ -43,10 +47,10 @@ export default function FilterCSSGroup() {
     return (
         <>
             <ul className={styles.list}>
-                {list.map(({ name, className }, index) => (
+                {list.map(({ name, className, opacity }, index) => (
                     <li
                         key={index}
-                        onClick={() => onSelectAndEdit(index)}
+                        onClick={() => onSelectAndEdit(index, opacity)}
                         className={CN([styles.item, active === index && styles.active])}
                     >
                         <h2>{name}</h2>
@@ -61,7 +65,7 @@ export default function FilterCSSGroup() {
             {strength && (
                 <div className={styles.layer}>
                     <div className={styles.slider}>
-                        <SliderIndex initValue={opacity} onUpdate={onUpdate} />
+                        <SliderIndex initValue={originOpacity} onUpdate={onUpdate} />
                     </div>
                     <aside className={styles.aside}>
                         <button onClick={onCancel}>Cancel</button>

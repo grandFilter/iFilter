@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CN from 'classnames';
 import FilterCSSGroup from './Group';
 
@@ -9,7 +9,9 @@ import filterStyles from './filter.module.less';
 
 export default function FilterCSSIndex() {
     const base64 = useStoreState(({ common }) => common.base64);
-    const { className, opacity } = useStoreState(({ effect }) => effect.activeFilter);
+    const { className, opacity: originOpacity } = useStoreState(({ effect }) => effect.activeFilter);
+
+    const [opacity, setOpacity] = useState(originOpacity);
 
     return (
         <>
@@ -23,7 +25,7 @@ export default function FilterCSSIndex() {
             </div>
 
             <aside className={styles.group}>
-                <FilterCSSGroup />
+                <FilterCSSGroup opacity={opacity} onInput={setOpacity} />
             </aside>
         </>
     );
