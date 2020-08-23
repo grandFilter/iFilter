@@ -1,0 +1,107 @@
+[
+    {
+        "id": "teal-white",
+        "name": "Teal & white",
+        "colors": ["#08917c", "#FFFFFF"]
+    },
+    {
+        "id": "teal-lightgreen",
+        "name": "Teal & lightgreen",
+        "colors": ["#08917c", "#cdff87"]
+    },
+    {
+        "id": "sepia",
+        "name": "sepia",
+        "colors": ["#42301c", "#f3c797"]
+    },
+    {
+        "id": "purple-sepia",
+        "name": "Purple sepia",
+        "colors": ["#6e105e", "#f7e0c9"]
+    },
+    {
+        "id": "cherry-icecream",
+        "name": "Cherry icecream",
+        "colors": ["#d70e5f", "#ffef9c"]
+    },
+    {
+        "id": "blackCurrant-and-mint",
+        "name": "Black currant and mint",
+        "colors": ["#bf41a2", "#88f7c4"]
+    },
+    {
+        "id": "sea",
+        "name": "Sea",
+        "colors": ["#040543", "#217785", "#cbf77b"]
+    },
+    {
+        "id": "warm-sea",
+        "name": "Warm sea",
+        "colors": ["#4b1f5f", "#038496", "#f7ef79"]
+    },
+    {
+        "id": "spring-grass",
+        "name": "Spring grass",
+        "colors": ["#008080", "#61cc8e", "#eaffbc"]
+    },
+    {
+        "id": "red-sunset-with-purple",
+        "name": "Red sunset with purple",
+        "colors": ["#850082", "#dc143c", "#f7cf0d"]
+    },
+    {
+        "id": "red-sunset",
+        "name": "Red sunset",
+        "colors": ["#460305", "#dc143c", "#f7cf0d"]
+    },
+    {
+        "id": "gold-sunset",
+        "name": "Gold sunset",
+        "colors": ["#460305", "#dc4e05", "#fff304"]
+    },
+    {
+        "id": "dark-crimson-sepia",
+        "name": "Dark crimson sepia",
+        "colors": ["#020104", "#850c4b", "#f7cf9c"]
+    },
+    {
+        "id": "dark-blue-sepia",
+        "name": "Dark blue sepia",
+        "colors": ["#490b51", "#256485", "#f7eeba"]
+    },
+    {
+        "id": "dark-green-sepia",
+        "name": "Dark green sepia",
+        "colors": ["#3f2810", "#638564", "#f5f7c7"]
+    },
+    {
+        "id": "x-rays",
+        "name": "X-rays",
+        "colors": ["#faffe9", "#4d709e", "#413d64"]
+    },
+    {
+        "id": "warm-x-rays",
+        "name": "Warm X-rays",
+        "colors": ["#faffe9", "#be7364", "#821d4b"]
+    },
+    {
+        "id": "golden-x-rays",
+        "name": "Golden X-rays",
+        "colors": ["#faffe9", "#fffa6d", "#f07106"]
+    },
+    {
+        "id": "purple-warm",
+        "name": "Purple warm",
+        "colors": ["#850082", "#f79d63", "#feffe4"]
+    },
+    {
+        "id": "green-pink-acid",
+        "name": "Green and pink acid",
+        "colors": ["#ff2bb2", "#faffd6", "#19d0aa"]
+    },
+    {
+        "id": "yellow-blue-acid",
+        "name": "Yellow and blue acid",
+        "colors": ["#0360ff", "#f7ffe4", "#e4ff03"]
+    }
+]
