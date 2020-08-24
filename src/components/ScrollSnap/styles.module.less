@@ -1,0 +1,27 @@
+.scroll {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    overflow-x: scroll;
+    scroll-padding: 0 50%;
+    scroll-snap-type: x mandatory;
+    .item {
+        scroll-snap-align: center;
+        // display: inline-block;
+        float: left;
+        border-radius: 3px;
+        font-size: 20px;
+        padding: 12px 0;
+    }
+
+    .cl {
+        *zoom: 1;
+        &:after {
+            content: ' ';
+            display: block;
+            height: 0;
+            clear: both;
+        }
+    }
+}

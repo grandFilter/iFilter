@@ -1,6 +1,8 @@
 import React, { FormEvent } from 'react';
 import { useStoreState, useStoreActions } from '@/store';
 
+import ScrollSnap from '@/components/ScrollSnap';
+
 import CN from 'classnames';
 import styles from './styles.module.less';
 
@@ -28,21 +30,28 @@ export default function Palatte() {
     const handleColorInterpolationFilters = (event: FormEvent<HTMLSelectElement>) =>
         setColorInterpolationFilters(event.currentTarget.value);
 
+    const base64 = useStoreState(({ common }) => common.base64);
+
+    const palettesList = palettes.map((item: any) => {
+        return {
+            ...item,
+            children: (
+                <div
+                    onClick={() => handlePalatte(item.id)}
+                    className={CN([styles.palette, item.id === paletteId && styles.active])}
+                >
+                    <h2>{item.name}</h2>
+                    <figure>
+                        <img src={base64} alt="" />
+                    </figure>
+                </div>
+            ),
+        };
+    });
+
     return (
         <>
-            <ul className={styles.palette}>
-                {palettes.map((item: any) => {
-                    return (
-                        <li
-                            key={item.id}
-                            onClick={() => handlePalatte(item.id)}
-                            className={CN([item.id === paletteId && styles.active])}
-                        >
-                            <div>{item.name}</div>
-                        </li>
-                    );
-                })}
-            </ul>
+            <ScrollSnap list={palettesList} />
             <label>
                 <span>Opacity</span>
                 <input type="number" step=".05" min="0" max="1" onChange={handleOpacity} value={imageOpacity} />
