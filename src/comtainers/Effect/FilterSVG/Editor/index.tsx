@@ -34,9 +34,11 @@ export default function SVGEditor() {
     });
 
     return (
-        <aside className={styles.eidtor}>
-            <ScrollSnap list={list} />
+        <>
+            <aside className={styles.eidtor}>
+                <ScrollSnap list={list} />
+            </aside>
             {state.editing && <Operator type={state.type} onClose={() => setState({ ...state, editing: false })} />}
-        </aside>
+        </>
     );
 }

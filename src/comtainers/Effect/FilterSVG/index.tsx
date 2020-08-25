@@ -1,13 +1,14 @@
 import React, { useRef } from 'react';
 import { useStoreState } from '@/store';
 
+import LayoutEditor from '@/comtainers/Layout/Editor';
+
 import Filter from './Filter';
 import Palette from './Palette';
 
 import styles from './styles.module.less';
-import imageShrine from '@/assets/images/shrine.jpg';
-
-console.log(imageShrine);
+// import imageShrine from '@/assets/images/shrine.jpg';
+// console.log(imageShrine);
 
 export default function FilterSVG() {
     const refSVG = useRef<SVGSVGElement>(null);
@@ -16,14 +17,20 @@ export default function FilterSVG() {
 
     const { width, height } = { width: 750, height: 1000 };
     const viewBoxValue = [0, 0, width, height];
-    return (
-        <>
+
+    const config = {
+        Banner: (
+            <button className={styles.save} onClick={() => onSave(refSVG.current)}>
+                SAVE
+            </button>
+        ),
+        Main: (
             <svg
                 ref={refSVG}
                 className={styles.svg}
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
-                preserveAspectRatio="xMidYMin meet"
+                preserveAspectRatio="xMidYMid slice"
                 viewBox={viewBoxValue.join(' ')}
                 width={width}
                 height={height}
@@ -36,16 +43,15 @@ export default function FilterSVG() {
                     <image xlinkHref={base64} width="100%" height="100%" filter={`url(#${filterId})`} />
                 </g>
             </svg>
+        ),
+        Footer: <Palette />,
+        // Extra: <div></div>,
+    };
 
-            <div>
-                <Palette />
-                <button className={styles.save} onClick={() => onSave(refSVG.current)}>
-                    SAVE
-                </button>
-            </div>
-        </>
-    );
+    return <LayoutEditor {...config} />;
 }
+
+//--------------------------------------
 // test
 async function onSave(svgElem: SVGSVGElement | null) {
     if (!svgElem) return;
@@ -65,6 +71,6 @@ async function onSave(svgElem: SVGSVGElement | null) {
         canvas.height = sHeight;
         canvas.style.width = '100%';
         ctx?.drawImage(image, 0, 0);
-        svgElem.parentElement?.append(canvas);
+        svgElem.parentElement?.parentElement?.append(canvas);
     };
 }

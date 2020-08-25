@@ -42,7 +42,7 @@ export default function Operator({ type, onClose }: { type: string; onClose?: Fu
     if (!type) return <></>;
 
     return (
-        <div className={styles.layer}>
+        <div className={styles.operator}>
             <div className={styles.slider}>
                 {(() => {
                     switch (type) {
