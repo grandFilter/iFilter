@@ -12,7 +12,7 @@ enum TYPE_NAME {
     Editor = 'Editor',
 }
 
-export default function Palatte() {
+export default function Footer() {
     const [state, setState] = useState({ tab: TYPE_NAME.Filter });
 
     const { palettes, paletteId } = useStoreState(({ SVG }) => SVG);
