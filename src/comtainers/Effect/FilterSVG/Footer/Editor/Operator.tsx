@@ -1,5 +1,7 @@
-import React, { useState, FormEvent } from 'react';
-import { useStoreState, useStoreActions } from '@/store';
+import React, { useState, useContext, FormEvent } from 'react';
+import { useStoreState } from '@/store';
+
+import { FilterContext } from '../../FilterContext';
 
 import { SVG_EDITOR_TYPE } from '@/constants';
 
@@ -9,35 +11,29 @@ import SliderIndex from '@/components/Slider';
 import styles from './styles.module.less';
 
 export default function Operator({ type, onClose }: { type: string; onClose?: Function }) {
-    const {
-        filterConfig: {
-            imageOpacity,
-            blendMode,
-            grayscaleType,
-            filter: { colorInterpolationFilters },
-        },
-        blendModeList,
-        typesList,
-        colorTypeList,
-    } = useStoreState(({ SVG }) => SVG);
+    const [{ imageOpacity, blendMode, grayscaleType, colorInterpolationFilters }, setCtx] = useContext(FilterContext);
 
-    const { setBlendMode, setGrayscaleType, setColorInterpolationFilters } = useStoreActions(({ SVG }) => SVG) as any;
+    const { blendModeList, typesList, colorTypeList } = useStoreState(({ SVG }) => SVG);
 
-    const [state, setState] = useState({ opacity: imageOpacity });
+    // 初始状态
+    const [state] = useState({ imageOpacity, blendMode, grayscaleType, colorInterpolationFilters });
 
     const onDone = () => {
-        console.log('onDone');
-    };
-    const onCancel = () => {
-        console.log('onCancel');
+        // console.log('onDone');
         onClose && onClose();
     };
-    // setOpacity(value)
-    const handleOpacity = (opacity: number = state.opacity) => setState({ opacity });
-    const handleBlendMode = (event: FormEvent<HTMLSelectElement>) => setBlendMode(event.currentTarget.value);
-    const handleGrayscaleType = (event: FormEvent<HTMLSelectElement>) => setGrayscaleType(event.currentTarget.value);
+    const onCancel = () => {
+        // console.log('onCancel');
+        setCtx(state);
+        onClose && onClose();
+    };
+
+    const handleOpacity = (imageOpacity: number) => setCtx({ imageOpacity });
+    const handleBlendMode = (event: FormEvent<HTMLSelectElement>) => setCtx({ blendMode: event.currentTarget.value });
+    const handleGrayscaleType = (event: FormEvent<HTMLSelectElement>) =>
+        setCtx({ grayscaleType: event.currentTarget.value });
     const handleColorInterpolationFilters = (event: FormEvent<HTMLSelectElement>) =>
-        setColorInterpolationFilters(event.currentTarget.value);
+        setCtx({ colorInterpolationFilters: event.currentTarget.value });
 
     if (!type) return <></>;
 
@@ -47,7 +43,7 @@ export default function Operator({ type, onClose }: { type: string; onClose?: Fu
                 {(() => {
                     switch (type) {
                         case SVG_EDITOR_TYPE.Transparency: {
-                            return <SliderIndex initValue={imageOpacity} onUpdate={handleOpacity} />;
+                            return <SliderIndex initValue={state.imageOpacity} onUpdate={handleOpacity} />;
                         }
                         case SVG_EDITOR_TYPE.Blend: {
                             return (

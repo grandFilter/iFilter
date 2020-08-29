@@ -4,10 +4,10 @@ import React from 'react';
 
 import styles from './styles.module.less';
 
-export default function Banner({ target }: { target: SVGSVGElement | null }) {
+export default function Banner() {
     return (
         <>
-            <button className={styles.save} onClick={() => onSave(target)}>
+            <button className={styles.save} onClick={() => onSave(null)}>
                 SAVE
             </button>
         </>
