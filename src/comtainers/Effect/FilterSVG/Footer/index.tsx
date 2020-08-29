@@ -3,6 +3,7 @@ import { useStoreState, useStoreActions } from '@/store';
 
 import ScrollSnap from '@/components/ScrollSnap';
 import Editor from './Editor/index';
+import Color from './Color';
 
 import CN from 'classnames';
 import styles from './styles.module.less';
@@ -13,20 +14,30 @@ enum TYPE_NAME {
 }
 
 export default function Footer() {
-    const [state, setState] = useState({ tab: TYPE_NAME.Filter });
+    const [state, setState] = useState({ tab: TYPE_NAME.Filter, editColor: false });
 
     const { palettes, paletteId } = useStoreState(({ SVG }) => SVG);
     const { setPalatte } = useStoreActions(({ SVG }) => SVG) as any;
-    const handlePalatte = (id: string) => setPalatte(id);
+    const onSelectAndChangeColor = (id: string, index: number) => {
+        if (paletteId === id) {
+            // 二次点击
+            setState({
+                ...state,
+                editColor: true,
+            });
+        } else {
+            setPalatte(id);
+        }
+    };
 
     const base64 = useStoreState(({ common }) => common.base64);
 
-    const palettesList = palettes.map((item: any) => {
+    const palettesList = palettes.map((item: any, index: number) => {
         return {
             ...item,
             children: (
                 <div
-                    onClick={() => handlePalatte(item.id)}
+                    onClick={() => onSelectAndChangeColor(item.id, index)}
                     className={CN([styles.palette, item.id === paletteId && styles.active])}
                 >
                     <h2>{item.name}</h2>
@@ -61,6 +72,17 @@ export default function Footer() {
                     </li>
                 ))}
             </ul>
+            {/* change color */}
+            {state.editColor && (
+                <Color
+                    onClose={() =>
+                        setState({
+                            ...state,
+                            editColor: false,
+                        })
+                    }
+                />
+            )}
         </div>
     );
 }
