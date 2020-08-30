@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from 'react';
+import React, { useContext, forwardRef, DetailedHTMLProps, LegacyRef, SVGAttributes } from 'react';
 import { useStoreState } from '@/store';
 
 import { FilterContext } from '../FilterContext';
@@ -7,9 +7,9 @@ import Filter from './Filter';
 
 import styles from './styles.module.less';
 
-export default function Main() {
-    const refSVG = useRef<SVGSVGElement>(null);
+export default forwardRef(MainSvg);
 
+function MainSvg(props: DetailedHTMLProps<SVGAttributes<SVGSVGElement>, SVGSVGElement>, ref: LegacyRef<SVGSVGElement>) {
     const [{ imageOpacity, blendMode, grayscaleType, colorInterpolationFilters }] = useContext(FilterContext);
 
     const { getFilterConfig } = useStoreState(({ SVG }) => SVG);
@@ -26,7 +26,7 @@ export default function Main() {
     const viewBoxValue = [0, 0, width, height];
     return (
         <svg
-            ref={refSVG}
+            ref={ref}
             className={styles.svg}
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"

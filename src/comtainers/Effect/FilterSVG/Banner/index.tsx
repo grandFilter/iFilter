@@ -4,10 +4,10 @@ import React from 'react';
 
 import styles from './styles.module.less';
 
-export default function Banner() {
+export default function Banner({ target }: { target: any }) {
     return (
         <>
-            <button className={styles.save} onClick={() => onSave(null)}>
+            <button className={styles.save} onClick={() => onSave(target)}>
                 SAVE
             </button>
         </>
@@ -17,7 +17,10 @@ export default function Banner() {
 //--------------------------------------
 // test
 async function onSave(svgElem: SVGSVGElement | null) {
-    if (!svgElem) return;
+    if (!svgElem) {
+        console.log('empty element');
+        return;
+    }
 
     const svgString = new XMLSerializer().serializeToString(svgElem);
 
