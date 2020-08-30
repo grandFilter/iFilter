@@ -17,7 +17,7 @@ export default function Footer() {
     const [state, setState] = useState({ tab: TYPE_NAME.Filter, editColor: false });
 
     const { palettes, paletteId } = useStoreState(({ SVG }) => SVG);
-    const { setPalatte } = useStoreActions(({ SVG }) => SVG) as any;
+    const { setPalatteId } = useStoreActions(({ SVG }) => SVG) as any;
     const onSelectAndChangeColor = (id: string, index: number) => {
         if (paletteId === id) {
             // 二次点击
@@ -26,7 +26,7 @@ export default function Footer() {
                 editColor: true,
             });
         } else {
-            setPalatte(id);
+            setPalatteId(id);
         }
     };
 

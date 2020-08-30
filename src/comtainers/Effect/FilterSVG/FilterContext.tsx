@@ -21,15 +21,16 @@ export function FilterProvider({ children }: { children: ReactElement }) {
     const [state, setState] = useState<IFilterContext>([
         // 0: value
         {
-            imageOpacity: imageOpacity,
-            blendMode: blendMode,
-            grayscaleType: grayscaleType,
-            colorInterpolationFilters: colorInterpolationFilters,
+            imageOpacity,
+            blendMode,
+            grayscaleType,
+            colorInterpolationFilters,
         },
         // 1: setter
         (value: any) => {
             setState([{ ...state[0], ...value }, state[1]]);
         },
     ]);
+
     return <FilterContext.Provider value={state}>{children}</FilterContext.Provider>;
 }

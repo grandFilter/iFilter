@@ -12,11 +12,10 @@ export default function Main() {
 
     const [{ imageOpacity, blendMode, grayscaleType, colorInterpolationFilters }] = useContext(FilterContext);
 
-    const { paletteId, getFilterConfig } = useStoreState(({ SVG }) => SVG);
+    const { getFilterConfig } = useStoreState(({ SVG }) => SVG);
     const base64 = useStoreState(({ common }) => common.base64);
 
     const { id, filter, playgrounds } = getFilterConfig({
-        paletteId,
         imageOpacity,
         blendMode,
         grayscaleType,

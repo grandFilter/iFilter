@@ -87,13 +87,14 @@ const SVGModel: ISVGModel = {
 
     // ----------------------------------------------
     // computed
-    palette: computed((state: any) => {
-        return palettes.find(({ id }) => state.paletteId === id);
+    palette: computed(({ palettes, paletteId }: any) => {
+        return palettes.find(({ id }: any) => paletteId === id);
     }),
-    options: computed(({ paletteId, config }: any) => {
+    options: computed(({ paletteId, config, palette }: any) => {
         return {
             filterId: `filter__${paletteId}`,
             filter: config.filter,
+            palette,
             imageOpacity: config.imageOpacity,
             blendMode: config.blendMode,
             grayscaleType: config.grayscaleType,
@@ -102,7 +103,6 @@ const SVGModel: ISVGModel = {
     }),
     filterConfig: computed(
         ({
-            paletteId,
             config: {
                 imageOpacity,
                 blendMode,
@@ -112,7 +112,6 @@ const SVGModel: ISVGModel = {
             getFilterConfig,
         }: any) => {
             return getFilterConfig({
-                paletteId,
                 imageOpacity,
                 blendMode,
                 grayscaleType,
@@ -120,14 +119,14 @@ const SVGModel: ISVGModel = {
             });
         },
     ),
-    getFilterConfig: computed(({ config, typesList }: any) => {
-        return ({ paletteId, imageOpacity, blendMode, grayscaleType, colorInterpolationFilters }: any) => {
-            const palette = palettes.find(({ id }) => paletteId === id);
+    getFilterConfig: computed(({ paletteId, palette, config, typesList }: any) => {
+        return ({ imageOpacity, blendMode, grayscaleType, colorInterpolationFilters }: any) => {
             if (!palette) {
                 return null;
             }
 
             const rgbValues = colorsListToRGBValues(palette.colors);
+
             const propsSet = Object.keys(rgbValues).reduce(
                 (prev, key) => {
                     const id = `func${key.toUpperCase()}`;
@@ -135,7 +134,7 @@ const SVGModel: ISVGModel = {
                     prev[id] = {
                         id,
                         param: 'tableValues',
-                        value: rgbValues[key].join(' '),
+                        value: rgbValues[key as keyof typeof rgbValues].join(' '),
                     };
 
                     return prev;
@@ -182,12 +181,24 @@ const SVGModel: ISVGModel = {
                 id: `filter__${paletteId}`,
                 playgrounds,
                 filter,
+                palette,
             };
         };
     }),
     // action
-    setPalatte: action((state: any, id: string) => {
+    setPalatteId: action((state: any, id: string) => {
         state.paletteId = id;
+    }),
+    setPalatte: action((state: any, palette: any) => {
+        state.palettes = state.palettes.map((item: any) => {
+            if (state.paletteId === item.id) {
+                item = {
+                    ...item,
+                    ...palette,
+                };
+            }
+            return item;
+        });
     }),
 
     setSave: action((state: any, value: any) => {

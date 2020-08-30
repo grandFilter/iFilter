@@ -1,5 +1,3 @@
-import { $Keys } from 'utility-types';
-
 const convertHEXtoRGB = (hex: string) => {
     const R = hex.slice(0, 2);
     const G = hex.slice(2, 4);
@@ -12,6 +10,10 @@ const convertHEXtoRGB = (hex: string) => {
     };
 };
 
+// import { $Keys } from 'utility-types';
+// 等同于 $Keys<typeof ReturnType<convertHEXtoRGB>>;
+type TypeRGBKeys = keyof ReturnType<typeof convertHEXtoRGB>;
+
 /**
  * hex颜色转化rgb
  *
@@ -23,7 +25,7 @@ export function colorsListToRGBValues(colors: string[]) {
             const rgbSet = convertHEXtoRGB(item.substr(1));
 
             Object.keys(rgbSet).forEach((k: string) => {
-                const key = k as $Keys<typeof rgbSet>;
+                const key = k as TypeRGBKeys;
                 rgbSet[key] = Math.round((rgbSet[key] / 255) * 100) / 100;
             });
 
@@ -33,7 +35,7 @@ export function colorsListToRGBValues(colors: string[]) {
 
             return prev;
         },
-        { r: [], g: [], b: [] } as { [key: string]: number[] },
+        { r: [], g: [], b: [] } as { [key in TypeRGBKeys]: number[] },
     );
 
     return rgbValues;
