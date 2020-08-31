@@ -1,5 +1,8 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState } from 'react';
 import { useStoreState, useStoreActions } from '@/store';
+
+import SliderHEXColor from '@/components/Slider/HEXColor';
+import ScrollSnap from '@/components/ScrollSnap';
 
 // import CN from 'classnames';
 import styles from './styles.module.less';
@@ -10,10 +13,12 @@ export default function Color({ onClose }: { onClose?: Function }) {
 
     const [state] = useState({ palette });
 
-    const handleChange = (event: FormEvent<HTMLInputElement>, index: number) => {
-        const colors = palette.colors.concat();
-        colors.splice(index, 1, event.currentTarget.value);
+    const handleChange = (value: string, index: number) => {
         // console.log('change', colors);
+        const colors = state.palette.colors.concat();
+
+        colors.splice(index, 1, value);
+
         setPalatte({
             ...state.palette,
             colors,
@@ -30,12 +35,21 @@ export default function Color({ onClose }: { onClose?: Function }) {
         onClose && onClose();
     };
 
+    const list = palette.colors.map((color: string, index: number) => {
+        return {
+            color,
+            children: (
+                <div>
+                    <h2 style={{ margin: 0, textAlign: 'center' }}>{color}</h2>
+                    <SliderHEXColor color={color} onChange={(value: string) => handleChange(value, index)} />
+                </div>
+            ),
+        };
+    });
+
     return (
         <div className={styles.color}>
-            {palette.colors.map((color: string, index: number) => {
-                return <input type="color" key={index} value={color} onChange={e => handleChange(e, index)} />;
-            })}
-
+            <ScrollSnap list={list} />
             <aside className={styles.aside}>
                 <button onClick={onCancel}>Cancel</button>
                 <button onClick={onDone}>Done</button>
