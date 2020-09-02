@@ -21,18 +21,18 @@ export default function SliderHEXColor({ color, onChange }: { color: string; onC
         positions: number[],
     ) => {
         let [value] = unencodedValues;
-        value = Math.round(value); // fixed
-        const result = hexToRgb(color).concat() as [number, number, number];
-        result.splice(index, 1, value);
+        const result = state.rgbs as [number, number, number];
+        result.splice(index, 1, Math.round(value));
 
         const hex = rgbToHex(...result);
+        setState({ ...state, rgbs: result });
 
         onChange && onChange(hex);
     };
     const handleChange = (event: FormEvent<HTMLInputElement>) => {
         const value = event.currentTarget.value;
         setState({ ...state, rgbs: hexToRgb(value) });
-        onChange && onChange(value);
+        // onChange && onChange(value);
     };
     return (
         <div className={styles.colorSlider}>
