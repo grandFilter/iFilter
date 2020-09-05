@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import CN from 'classnames';
 import { useStoreState, useStoreActions } from '@/store';
+import { useBase64 } from '@/services/hooks/localforage';
 
 import SliderIndex from '@/components/Slider';
 
@@ -10,7 +11,7 @@ import filterStyles from './filter.module.less';
 export default function FilterCSSGroup({ onInput, opacity }: { onInput?: Function; opacity: number }) {
     const { opacity: originOpacity } = useStoreState(({ effect }) => effect.activeFilter);
 
-    const base64 = useStoreState(({ common }) => common.base64);
+    const [base64] = useBase64();
     const list = useStoreState(({ effect }) => effect.CSSgramList);
     const active = useStoreState(({ effect }) => effect.active);
 
@@ -55,9 +56,11 @@ export default function FilterCSSGroup({ onInput, opacity }: { onInput?: Functio
                     >
                         <h2>{name}</h2>
                         <div className={styles.filter}>
-                            <figure className={CN([filterStyles[className]])}>
-                                <img src={base64} alt="" />
-                            </figure>
+                            {base64 && (
+                                <figure className={CN([filterStyles[className]])}>
+                                    <img src={base64} alt="" />
+                                </figure>
+                            )}
                         </div>
                     </li>
                 ))}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { useStoreActions } from '@/store';
+import { useBase64 } from '@/services/hooks/localforage';
 
 // import CarouselIndex from '@/components/Carousel';
 // import CarouselSlider from '@/components/Carousel/Slider';
@@ -12,12 +12,13 @@ import styles from './styles.module.less';
 
 export default function HomeIndex() {
     const history = useHistory();
-    const setBase64 = useStoreActions(({ common }) => common.setBase64);
 
     const [visible, setVisible] = useState(false);
 
-    const inputHandle = (base64: string) => {
-        setBase64(base64);
+    const [, setBase64] = useBase64();
+
+    const inputHandle = async (base64: string) => {
+        await setBase64(base64);
         history.push('/effect');
     };
     return (

@@ -3,12 +3,13 @@ import CN from 'classnames';
 import FilterCSSGroup from './Group';
 
 import { useStoreState } from '@/store';
+import { useBase64 } from '@/services/hooks/localforage';
 
 import styles from './styles.module.less';
 import filterStyles from './filter.module.less';
 
 export default function FilterCSSIndex() {
-    const base64 = useStoreState(({ common }) => common.base64);
+    const [base64] = useBase64();
     const { className, opacity: originOpacity } = useStoreState(({ effect }) => effect.activeFilter);
 
     const [opacity, setOpacity] = useState(originOpacity);
@@ -16,12 +17,14 @@ export default function FilterCSSIndex() {
     return (
         <>
             <div className={styles.filter}>
-                <picture>
-                    <img src={base64} alt="" />
-                    <figure className={CN([filterStyles[className]])} style={{ opacity }}>
+                {base64 && (
+                    <picture>
                         <img src={base64} alt="" />
-                    </figure>
-                </picture>
+                        <figure className={CN([filterStyles[className]])} style={{ opacity }}>
+                            <img src={base64} alt="" />
+                        </figure>
+                    </picture>
+                )}
             </div>
 
             <aside className={styles.group}>

@@ -1,3 +1,6 @@
+// 是否支持 localStorage
+export const isLocalStorage = window.Storage && window.localStorage && window.localStorage instanceof Storage;
+
 /**
  * 设置本地缓存
  *

@@ -65,8 +65,6 @@ export default function CameraIndex(props: { visible: boolean; onClose: Function
         console.log('shot', video, video);
         if (!canvas || !video) return;
 
-        
-
         const { width, height } = canvas;
         console.log('width=', width, height);
         const ctx = canvas.getContext('2d');
@@ -83,14 +81,14 @@ export default function CameraIndex(props: { visible: boolean; onClose: Function
         closeHandle();
     };
 
-    const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const changeHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
         console.log(e);
         const file = (inputEl.current?.files || [])[0];
 
         const reader = new FileReader();
         reader.onload = () => {
             const base64 = reader.result;
-            onInput && onInput(base64);
+            onInput && onInput(base64, file);
             closeHandle();
         };
         reader.readAsDataURL(file);

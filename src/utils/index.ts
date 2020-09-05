@@ -17,6 +17,18 @@ export function loadImage(url: string, crossOrigin: boolean = false): Promise<HT
     });
 }
 
+export async function getBase64ByFile(file: File) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            const base64 = reader.result;
+            resolve(base64);
+        };
+        reader.onerror = err => reject(err);
+        reader.readAsDataURL(file);
+    });
+}
+
 /**
  * 深拷贝对象 (JSON.parse(JSON.stringify(data)))
  *

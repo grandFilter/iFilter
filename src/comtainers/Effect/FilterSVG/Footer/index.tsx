@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useStoreState, useStoreActions } from '@/store';
 
+import { useBase64 } from '@/services/hooks/localforage';
+
 import ScrollSnap from '@/components/ScrollSnap';
 import Editor from './Editor/index';
 import Color from './Color';
@@ -15,6 +17,7 @@ enum TYPE_NAME {
 
 export default function Footer() {
     const [state, setState] = useState({ tab: TYPE_NAME.Filter, editColor: false });
+    const [base64] = useBase64();
 
     const { palettes, paletteId } = useStoreState(({ SVG }) => SVG);
     const { setPalatteId } = useStoreActions(({ SVG }) => SVG) as any;
@@ -30,8 +33,6 @@ export default function Footer() {
         }
     };
 
-    const base64 = useStoreState(({ common }) => common.base64);
-
     const palettesList = palettes.map((item: any, index: number) => {
         return {
             ...item,
@@ -41,9 +42,7 @@ export default function Footer() {
                     className={CN([styles.palette, item.id === paletteId && styles.active])}
                 >
                     <h2>{item.name}</h2>
-                    <figure>
-                        <img src={base64} alt="" />
-                    </figure>
+                    <figure>{base64 && <img src={base64} alt="" />}</figure>
                 </div>
             ),
         };
