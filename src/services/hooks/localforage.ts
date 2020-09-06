@@ -45,11 +45,15 @@ export function useBase64() {
     const [getStore, setStore] = useLocalforage();
 
     useEffect(() => {
+        let mounted = true;
         (async () => {
             const data = await getStore();
             // console.log('#test', data);
-            setBase64(data.base64);
+            mounted && setBase64(data.base64);
         })();
+        return () => {
+            mounted = false;
+        };
     }, [getStore]);
 
     const setter = async (base64: string) => {

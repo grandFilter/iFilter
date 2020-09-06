@@ -11,6 +11,7 @@ import { CameraIcon } from '@/components/Icon';
 import styles from './styles.module.less';
 
 export default function HomeIndex() {
+    console.log('HomeIndex');
     const history = useHistory();
 
     const [visible, setVisible] = useState(false);

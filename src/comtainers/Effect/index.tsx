@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRouteMatch, Switch, Route } from 'react-router-dom';
+import { useRouteMatch, Switch, Route, Redirect } from 'react-router-dom';
 
 import FilterCSS from './FilterCSS';
 import FilterSVG from './FilterSVG';
@@ -15,7 +15,7 @@ export default function EffectIndex() {
                 <FilterSVG />
             </Route>
             <Route path={`${path}/`} exact>
-                <FilterSVG />
+                <Redirect to={`${path}/svg`} />
             </Route>
             <Route path="*">
                 <>404</>

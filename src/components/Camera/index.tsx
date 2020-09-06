@@ -56,8 +56,7 @@ export default function CameraIndex(props: { visible: boolean; onClose: Function
         if (visible && videoEl.current) {
             webRtcCamera();
         }
-        return () => {};
-    });
+    }, [visible]);
 
     const shotHandler = () => {
         const canvas = canvasEl.current;
@@ -86,10 +85,10 @@ export default function CameraIndex(props: { visible: boolean; onClose: Function
         const file = (inputEl.current?.files || [])[0];
 
         const reader = new FileReader();
-        reader.onload = () => {
+        reader.onload = async () => {
             const base64 = reader.result;
-            onInput && onInput(base64, file);
             closeHandle();
+            onInput && (await onInput(base64, file));
         };
         reader.readAsDataURL(file);
     };
