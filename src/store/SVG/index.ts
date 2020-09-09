@@ -202,8 +202,8 @@ const SVGModel: ISVGModel = {
         });
     }),
 
-    setSave: action(({ config }, { opacity, blendMode, grayscaleType, colorInterpolationFilters }) => {
-        opacity !== undefined && Object.assign(config, { imageOpacity: opacity });
+    setSave: action(({ config }, { imageOpacity, blendMode, grayscaleType, colorInterpolationFilters }) => {
+        imageOpacity !== undefined && Object.assign(config, { imageOpacity });
 
         blendMode !== undefined && Object.assign(config, { blendMode });
 

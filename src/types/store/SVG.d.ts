@@ -130,7 +130,7 @@ export interface ISVGModel {
     setSave: Action<
         ISVGModel,
         Partial<{
-            opacity: number;
+            imageOpacity: number;
             blendMode: string;
             grayscaleType: string;
             colorInterpolationFilters: string;

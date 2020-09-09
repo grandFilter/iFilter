@@ -43,7 +43,7 @@ export default function Operator({ type, onClose }: { type: string; onClose?: Fu
                 {(() => {
                     switch (type) {
                         case SVG_EDITOR_TYPE.Transparency: {
-                            return <SliderIndex initValue={state.imageOpacity} onUpdate={handleOpacity} />;
+                            return <SliderIndex value={state.imageOpacity} onUpdate={handleOpacity} />;
                         }
                         case SVG_EDITOR_TYPE.Blend: {
                             return (

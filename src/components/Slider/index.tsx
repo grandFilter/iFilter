@@ -7,8 +7,8 @@ import wNumb from 'wnumb';
 // import { ICallback } from '@/types';
 import styles from './styles.module.less';
 
-export default function SliderIndex({ initValue = 100, onUpdate }: { initValue?: number; onUpdate?: Function }) {
-    const updateHandler = (
+export default function SliderIndex({ value = 100, onUpdate }: { value?: number; onUpdate?: Function }) {
+    const handler = (
         values: string[],
         handle: number,
         unencodedValues: number[],
@@ -27,11 +27,11 @@ export default function SliderIndex({ initValue = 100, onUpdate }: { initValue?:
                 className={styles.slider}
                 step={1}
                 range={{ min: 0, max: 100 }}
-                start={[initValue * 100]}
+                start={[value * 100]}
                 tooltips={true}
                 format={wNumb({ decimals: 0 })}
                 connect={[true, false]}
-                onUpdate={updateHandler}
+                onUpdate={handler}
             />
         </>
     );

@@ -15,7 +15,7 @@ export default function Color({ onClose }: { onClose?: Function }) {
 
     const handleChange = (value: string, index: number) => {
         // console.log('change', colors);
-        const colors = state.palette?.colors.concat();
+        const colors = state.palette?.colors;
 
         colors?.splice(index, 1, value);
 

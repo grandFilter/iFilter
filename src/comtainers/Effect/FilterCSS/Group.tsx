@@ -68,7 +68,7 @@ export default function FilterCSSGroup({ onInput, opacity }: { onInput?: Functio
             {strength && (
                 <div className={styles.layer}>
                     <div className={styles.slider}>
-                        <SliderIndex initValue={originOpacity} onUpdate={onUpdate} />
+                        <SliderIndex value={originOpacity} onUpdate={onUpdate} />
                     </div>
                     <aside className={styles.aside}>
                         <button onClick={onCancel}>Cancel</button>
