@@ -18,12 +18,13 @@ function MainSvg(props: DetailedHTMLProps<SVGAttributes<SVGSVGElement>, SVGSVGEl
 
     const [base64] = useBase64();
 
-    const { id, filter, playgrounds } = getFilterConfig({
-        imageOpacity,
-        blendMode,
-        grayscaleType,
-        colorInterpolationFilters,
-    });
+    const { id = '', filter = {}, playgrounds = [] } =
+        getFilterConfig({
+            imageOpacity,
+            blendMode,
+            grayscaleType,
+            colorInterpolationFilters,
+        }) || {};
 
     const { width, height } = { width: 750, height: 1000 };
     const viewBoxValue = [0, 0, width, height];

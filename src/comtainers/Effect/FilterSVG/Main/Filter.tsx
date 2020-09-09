@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import attributes from '@/store/SVG/attributes';
 
-export default function Filter({ id, filter, playgrounds }: { id: string; filter: Object; playgrounds: [] }) {
+export default function Filter({ id, filter, playgrounds }: { id: string; filter: Object; playgrounds: {}[] }) {
     return (
         <filter id={id} {...filter}>
             {playgrounds.map((primitive: any, index: number) => {

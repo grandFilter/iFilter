@@ -87,10 +87,10 @@ const SVGModel: ISVGModel = {
 
     // ----------------------------------------------
     // computed
-    palette: computed(({ palettes, paletteId }: any) => {
+    palette: computed(({ palettes, paletteId }) => {
         return palettes.find(({ id }: any) => paletteId === id);
     }),
-    options: computed(({ paletteId, config, palette }: any) => {
+    options: computed(({ paletteId, config, palette }) => {
         return {
             filterId: `filter__${paletteId}`,
             filter: config.filter,
@@ -185,11 +185,12 @@ const SVGModel: ISVGModel = {
             };
         };
     }),
+    // ----------------------------------------------
     // action
-    setPalatteId: action((state: any, id: string) => {
+    setPalatteId: action((state, id) => {
         state.paletteId = id;
     }),
-    setPalatte: action((state: any, palette: any) => {
+    setPalatte: action((state, palette) => {
         state.palettes = state.palettes.map((item: any) => {
             if (state.paletteId === item.id) {
                 item = {
@@ -201,22 +202,15 @@ const SVGModel: ISVGModel = {
         });
     }),
 
-    setSave: action((state: any, value: any) => {
-        if ('opacity' in state) {
-            state.config.imageOpacity = value.opacity;
-        }
+    setSave: action(({ config }, { opacity, blendMode, grayscaleType, colorInterpolationFilters }) => {
+        opacity !== undefined && Object.assign(config, { imageOpacity: opacity });
 
-        if ('blendMode' in state) {
-            state.config.imageOpacity = value.blendMode;
-        }
+        blendMode !== undefined && Object.assign(config, { blendMode });
 
-        if ('grayscaleType' in state) {
-            state.config.imageOpacity = value.grayscaleType;
-        }
+        grayscaleType !== undefined && Object.assign(config, { grayscaleType });
 
-        if ('colorInterpolationFilters' in state) {
-            state.config.filter.colorInterpolationFilters = value.colorInterpolationFilters;
-        }
+        colorInterpolationFilters !== undefined &&
+            Object.assign(config.filter.colorInterpolationFilters, { colorInterpolationFilters });
     }),
 };
 

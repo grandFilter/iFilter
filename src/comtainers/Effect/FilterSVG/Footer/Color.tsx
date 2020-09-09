@@ -15,9 +15,9 @@ export default function Color({ onClose }: { onClose?: Function }) {
 
     const handleChange = (value: string, index: number) => {
         // console.log('change', colors);
-        const colors = state.palette.colors.concat();
+        const colors = state.palette?.colors.concat();
 
-        colors.splice(index, 1, value);
+        colors?.splice(index, 1, value);
 
         setPalatte({
             ...state.palette,
@@ -35,17 +35,18 @@ export default function Color({ onClose }: { onClose?: Function }) {
         onClose && onClose();
     };
 
-    const list = palette.colors.map((color: string, index: number) => {
-        return {
-            color,
-            children: (
-                <div>
-                    <h2 style={{ margin: 0, textAlign: 'center' }}>{color}</h2>
-                    <SliderHEXColor color={color} onChange={(value: string) => handleChange(value, index)} />
-                </div>
-            ),
-        };
-    });
+    const list =
+        palette?.colors.map((color: string, index: number) => {
+            return {
+                color,
+                children: (
+                    <div>
+                        <h2 style={{ margin: 0, textAlign: 'center' }}>{color}</h2>
+                        <SliderHEXColor color={color} onChange={(value: string) => handleChange(value, index)} />
+                    </div>
+                ),
+            };
+        }) || [];
 
     return (
         <div className={styles.color}>
