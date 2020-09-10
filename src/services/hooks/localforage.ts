@@ -24,16 +24,16 @@ export function useLocalforage() {
 
     const setItem = useCallback(
         async (data: IData) => {
-            await localforage.setItem(STORAGE_FILE, data);
-            // console.log('#setItem', data);
             setState({
                 ...state,
                 ...data,
             });
+            await localforage.setItem(STORAGE_FILE, data);
+            // console.log('#setItem', data);
         },
         [state],
     );
-    return [getItem, setItem] as [() => Promise<IData>, (data: IData) => void];
+    return [getItem, setItem] as [() => Promise<IData>, (data: IData) => Promise<void>];
 }
 
 /**
@@ -45,21 +45,17 @@ export function useBase64() {
     const [getStore, setStore] = useLocalforage();
 
     useEffect(() => {
-        let mounted = true;
         (async () => {
             const data = await getStore();
             // console.log('#test', data);
-            mounted && setBase64(data.base64);
+            setBase64(data.base64);
         })();
-        return () => {
-            mounted = false;
-        };
     }, [getStore]);
 
     const setter = async (base64: string) => {
         const data = await getStore();
         setBase64(base64);
-        setStore({
+        await setStore({
             ...data,
             base64,
         });
