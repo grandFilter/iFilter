@@ -7,9 +7,19 @@ import ScrollSnap from '@/components/ScrollSnap';
 // import CN from 'classnames';
 import styles from './styles.module.less';
 
-export default function Color({ onClose }: { onClose?: Function }) {
+export default function Color({
+    value,
+    onClose,
+}: {
+    value: {
+        id: string;
+        name: string;
+        colors: string[];
+    };
+    onClose?: Function;
+}) {
     const palette = useStoreState(({ SVG }) => SVG.palette);
-    const setPalatte = useStoreActions(({ SVG }) => SVG.setPalatte) as any;
+    const setPalatte = useStoreActions(({ SVG }) => SVG.setPalatte);
 
     const [state] = useState({ palette });
 
@@ -31,7 +41,7 @@ export default function Color({ onClose }: { onClose?: Function }) {
     };
     const onCancel = () => {
         // console.log('onCancel');
-        setPalatte(state.palette);
+        setPalatte(value);
         onClose && onClose();
     };
 
