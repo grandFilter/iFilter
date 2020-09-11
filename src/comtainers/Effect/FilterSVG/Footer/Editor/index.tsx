@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { SVG_EDITOR_TYPE } from '@/constants';
 
 import ScrollSnap from '@/components/ScrollSnap';
-import { TransparencyIcon } from '@/components/Icon';
+import { TransparencyIcon, BrightnessIcon } from '@/components/Icon';
 
 import Operator from './Operator';
 
@@ -11,7 +11,7 @@ import Operator from './Operator';
 import styles from './styles.module.less';
 
 const actionList = [
-    { type: SVG_EDITOR_TYPE.Transparency, icon: <TransparencyIcon /> },
+    { type: SVG_EDITOR_TYPE.Transparency, icon: <BrightnessIcon /> },
     { type: SVG_EDITOR_TYPE.Blend, icon: <TransparencyIcon /> },
     { type: SVG_EDITOR_TYPE.Channel, icon: <TransparencyIcon /> },
     { type: SVG_EDITOR_TYPE.Interpolation, icon: <TransparencyIcon /> }, // color-interpolation-filters

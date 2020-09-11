@@ -11,3 +11,9 @@ export enum SVG_EDITOR_TYPE {
     Channel = 'Channel',
     Interpolation = 'Interpolation',
 }
+
+// SVG 转 Image 时的类型
+export enum SVG_TYPE {
+    blob = 'blob',
+    base64 = 'base64',
+}

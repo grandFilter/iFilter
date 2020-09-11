@@ -4,6 +4,7 @@ import { IDictionary } from '@/types';
 import { ReactComponent as Plus } from '@/assets/svg/plus.svg';
 import { ReactComponent as Camera } from '@/assets/svg/camera.svg';
 import { ReactComponent as Transparency } from '@/assets/svg/transparency.svg';
+import { ReactComponent as Brightness } from '@/assets/svg/brightness.svg';
 
 import styles from './styles.module.less';
 
@@ -18,3 +19,4 @@ function CreateAntIcon(Component: any) {
 export const CameraIcon = CreateAntIcon(Camera);
 export const PlusIcon = CreateAntIcon(Plus);
 export const TransparencyIcon = CreateAntIcon(Transparency);
+export const BrightnessIcon = CreateAntIcon(Brightness);
