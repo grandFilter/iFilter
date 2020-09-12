@@ -92,7 +92,7 @@ const SVGModel: ISVGModel = {
     }),
     options: computed(({ paletteId, config, palette }) => {
         return {
-            filterId: `filter__${paletteId}`,
+            filterId: `FILTER__${paletteId}`,
             filter: config.filter,
             palette,
             imageOpacity: config.imageOpacity,
@@ -178,7 +178,7 @@ const SVGModel: ISVGModel = {
             };
 
             return {
-                id: `filter__${palette.id}`,
+                id: `FILTER__${palette.id}`,
                 playgrounds,
                 filter,
                 palette,
@@ -201,16 +201,11 @@ const SVGModel: ISVGModel = {
             return item;
         });
     }),
-
-    setSave: action(({ config }, { imageOpacity, blendMode, grayscaleType, colorInterpolationFilters }) => {
-        imageOpacity !== undefined && Object.assign(config, { imageOpacity });
-
-        blendMode !== undefined && Object.assign(config, { blendMode });
-
-        grayscaleType !== undefined && Object.assign(config, { grayscaleType });
-
-        colorInterpolationFilters !== undefined &&
-            Object.assign(config.filter.colorInterpolationFilters, { colorInterpolationFilters });
+    setConfig: action(({ config }, { imageOpacity, blendMode, grayscaleType, colorInterpolationFilters }) => {
+        config.imageOpacity = imageOpacity ?? config.imageOpacity;
+        config.blendMode = blendMode ?? config.blendMode;
+        config.grayscaleType = grayscaleType ?? config.grayscaleType;
+        config.filter.colorInterpolationFilters = colorInterpolationFilters ?? config.filter.colorInterpolationFilters;
     }),
 };
 

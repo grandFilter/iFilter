@@ -1,5 +1,5 @@
 import React, { useState, useContext, FormEvent } from 'react';
-import { useStoreState } from '@/store';
+import { useStoreState, useStoreActions } from '@/store';
 
 import { FilterContext } from '../../FilterContext';
 
@@ -14,81 +14,81 @@ export default function Operator({ type, onClose }: { type: string; onClose?: Fu
     const [{ imageOpacity, blendMode, grayscaleType, colorInterpolationFilters }, setCtx] = useContext(FilterContext);
 
     const { blendModeList, typesList, colorTypeList } = useStoreState(({ SVG }) => SVG);
+    const { setConfig } = useStoreActions(({ SVG }) => SVG);
 
     // 初始状态
     const [state] = useState({ imageOpacity, blendMode, grayscaleType, colorInterpolationFilters });
 
     const onDone = () => {
-        // console.log('onDone');
+        setConfig({ imageOpacity, blendMode, grayscaleType, colorInterpolationFilters });
         onClose && onClose();
     };
     const onCancel = () => {
-        // console.log('onCancel');
         setCtx(state);
         onClose && onClose();
     };
 
-    const handleOpacity = (imageOpacity: number) => setCtx({ imageOpacity });
-    const handleBlendMode = (event: FormEvent<HTMLSelectElement>) => setCtx({ blendMode: event.currentTarget.value });
-    const handleGrayscaleType = (event: FormEvent<HTMLSelectElement>) =>
-        setCtx({ grayscaleType: event.currentTarget.value });
-    const handleColorInterpolationFilters = (event: FormEvent<HTMLSelectElement>) =>
-        setCtx({ colorInterpolationFilters: event.currentTarget.value });
-
     if (!type) return <></>;
+
+    const getOperator = () => {
+        switch (type) {
+            case SVG_EDITOR_TYPE.Transparency: {
+                const onUpdate = (imageOpacity: number) => setCtx({ imageOpacity });
+                return <SliderIndex value={state.imageOpacity} onUpdate={onUpdate} />;
+            }
+            case SVG_EDITOR_TYPE.Blend: {
+                const onChange = (event: FormEvent<HTMLSelectElement>) =>
+                    setCtx({ blendMode: event.currentTarget.value });
+                return (
+                    <select onChange={onChange} value={blendMode}>
+                        {blendModeList.map((name: string) => {
+                            return (
+                                <option key={name} value={name}>
+                                    {name}
+                                </option>
+                            );
+                        })}
+                    </select>
+                );
+            }
+            case SVG_EDITOR_TYPE.Channel: {
+                const onChange = (event: FormEvent<HTMLSelectElement>) =>
+                    setCtx({ grayscaleType: event.currentTarget.value });
+                return (
+                    <select onChange={onChange} value={grayscaleType}>
+                        {typesList.map(({ name, id }: any) => {
+                            return (
+                                <option key={id} value={id}>
+                                    {name}
+                                </option>
+                            );
+                        })}
+                    </select>
+                );
+            }
+            case SVG_EDITOR_TYPE.Interpolation: {
+                const onChange = (event: FormEvent<HTMLSelectElement>) =>
+                    setCtx({ colorInterpolationFilters: event.currentTarget.value });
+                return (
+                    <select onChange={onChange} value={colorInterpolationFilters}>
+                        {colorTypeList.map((name: string) => {
+                            return (
+                                <option key={name} value={name}>
+                                    {name}
+                                </option>
+                            );
+                        })}
+                    </select>
+                );
+            }
+            default:
+                return <></>;
+        }
+    };
 
     return (
         <div className={styles.operator}>
-            <div className={styles.slider}>
-                {(() => {
-                    switch (type) {
-                        case SVG_EDITOR_TYPE.Transparency: {
-                            return <SliderIndex value={state.imageOpacity} onUpdate={handleOpacity} />;
-                        }
-                        case SVG_EDITOR_TYPE.Blend: {
-                            return (
-                                <select onChange={handleBlendMode} value={blendMode}>
-                                    {blendModeList.map((name: string) => {
-                                        return (
-                                            <option key={name} value={name}>
-                                                {name}
-                                            </option>
-                                        );
-                                    })}
-                                </select>
-                            );
-                        }
-                        case SVG_EDITOR_TYPE.Channel: {
-                            return (
-                                <select onChange={handleGrayscaleType} value={grayscaleType}>
-                                    {typesList.map(({ name, id }: any) => {
-                                        return (
-                                            <option key={id} value={id}>
-                                                {name}
-                                            </option>
-                                        );
-                                    })}
-                                </select>
-                            );
-                        }
-                        case SVG_EDITOR_TYPE.Interpolation: {
-                            return (
-                                <select onChange={handleColorInterpolationFilters} value={colorInterpolationFilters}>
-                                    {colorTypeList.map((name: string) => {
-                                        return (
-                                            <option key={name} value={name}>
-                                                {name}
-                                            </option>
-                                        );
-                                    })}
-                                </select>
-                            );
-                        }
-                        default:
-                            return <></>;
-                    }
-                })()}
-            </div>
+            <div className={styles.slider}>{getOperator()}</div>
             <aside className={styles.aside}>
                 <button onClick={onCancel}>Cancel</button>
                 <button onClick={onDone}>Done</button>

@@ -33,8 +33,24 @@ export function FilterProvider({ children }: { children: ReactElement }) {
             colorInterpolationFilters,
         },
         // 1: setter
-        (value: any) => {
-            setState([{ ...state[0], ...value }, state[1]]);
+        ({ palette, imageOpacity, blendMode, grayscaleType, colorInterpolationFilters }: IFilterContext[0]) => {
+            const data = state[0];
+
+            imageOpacity && imageOpacity >= 0 && (data.imageOpacity = imageOpacity);
+            blendMode && (data.blendMode = blendMode);
+            grayscaleType && (data.grayscaleType = grayscaleType);
+            colorInterpolationFilters && (data.colorInterpolationFilters = colorInterpolationFilters);
+
+            // deep object
+            palette &&
+                (data.palette = {
+                    ...data.palette,
+                    ...palette,
+                });
+
+            const result = { ...state[0], ...data };
+
+            setState([result, state[1]]);
         },
     ]);
 
@@ -43,7 +59,6 @@ export function FilterProvider({ children }: { children: ReactElement }) {
         setState([
             {
                 ...state[0],
-
                 palette,
                 imageOpacity,
                 blendMode,

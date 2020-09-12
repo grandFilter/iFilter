@@ -133,7 +133,7 @@ export interface ISVGModel {
             colors: string[];
         }>
     >;
-    setSave: Action<
+    setConfig: Action<
         ISVGModel,
         Partial<{
             imageOpacity: number;
