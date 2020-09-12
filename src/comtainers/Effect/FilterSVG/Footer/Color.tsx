@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
-import { useStoreState, useStoreActions } from '@/store';
+import React, { useContext } from 'react';
+import { useStoreActions } from '@/store';
+import { FilterContext } from '../FilterContext';
 
 import SliderHEXColor from '@/components/Slider/HEXColor';
 import ScrollSnap from '@/components/ScrollSnap';
 
-// import CN from 'classnames';
 import styles from './styles.module.less';
 
+/**
+ * 调节 RGB 颜色
+ *
+ * @param {{}} props
+ * @param {{id: string;name: string; colors: string[];}} props.value - 调色板数据
+ * @param {Function} [props.onClose] - 回调函数，关闭当前组件的方法
+ */
 export default function Color({
     value,
     onClose,
@@ -18,30 +25,31 @@ export default function Color({
     };
     onClose?: Function;
 }) {
-    const palette = useStoreState(({ SVG }) => SVG.palette);
-    const setPalatte = useStoreActions(({ SVG }) => SVG.setPalatte);
+    const [{ palette }, setCxt] = useContext(FilterContext);
 
-    const [state] = useState({ palette });
-
-    const handleChange = (value: string, index: number) => {
-        // console.log('change', colors);
-        const colors = state.palette?.colors;
-
-        colors?.splice(index, 1, value);
-
-        setPalatte({
-            ...state.palette,
-            colors,
+    // 实时改变颜色，即改变 Context 数据
+    const setLiveColors = (values: string[] | undefined) => {
+        setCxt({
+            palette: {
+                ...palette,
+                colors: values ?? [],
+            },
         });
     };
+    // 保存数据到 store
+    const setPalatte = useStoreActions(({ SVG }) => SVG.setPalatte);
 
+    const handleChange = (value: string, index: number) => {
+        const colors = palette?.colors;
+        colors?.splice(index, 1, value);
+        setLiveColors(colors);
+    };
     const onDone = () => {
-        // console.log('onDone');
+        palette && setPalatte(palette);
         onClose && onClose();
     };
     const onCancel = () => {
-        // console.log('onCancel');
-        setPalatte(value);
+        setLiveColors(value.colors);
         onClose && onClose();
     };
 

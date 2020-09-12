@@ -12,7 +12,7 @@ import styles from './styles.module.less';
 export default forwardRef(MainSvg);
 
 function MainSvg(props: DetailedHTMLProps<SVGAttributes<SVGSVGElement>, SVGSVGElement>, ref: LegacyRef<SVGSVGElement>) {
-    const [{ imageOpacity, blendMode, grayscaleType, colorInterpolationFilters }] = useContext(FilterContext);
+    const [{ palette, imageOpacity, blendMode, grayscaleType, colorInterpolationFilters }] = useContext(FilterContext);
 
     const { getFilterConfig } = useStoreState(({ SVG }) => SVG);
 
@@ -20,6 +20,7 @@ function MainSvg(props: DetailedHTMLProps<SVGAttributes<SVGSVGElement>, SVGSVGEl
 
     const { id = '', filter = {}, playgrounds = [] } =
         getFilterConfig({
+            palette,
             imageOpacity,
             blendMode,
             grayscaleType,

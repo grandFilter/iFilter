@@ -90,11 +90,17 @@ export interface ISVGModel {
     getFilterConfig: Computed<
         ISVGModel,
         ({
+            palette,
             imageOpacity,
             blendMode,
             grayscaleType,
             colorInterpolationFilters,
         }: Partial<{
+            palette: {
+                id: string;
+                name: string;
+                colors: string[];
+            };
             imageOpacity: number;
             blendMode: string;
             grayscaleType: string;
@@ -109,7 +115,7 @@ export interface ISVGModel {
                 height: string;
                 filterUnits: string;
                 primitiveUnits: string;
-                colorInterpolationFilters: string;
+                colorInterpolationFilters: string | undefined;
             };
             palette: {
                 id: string;

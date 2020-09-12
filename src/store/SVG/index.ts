@@ -119,8 +119,8 @@ const SVGModel: ISVGModel = {
             });
         },
     ),
-    getFilterConfig: computed(({ paletteId, palette, config, typesList }: any) => {
-        return ({ imageOpacity, blendMode, grayscaleType, colorInterpolationFilters }: any) => {
+    getFilterConfig: computed(({ config, typesList }) => {
+        return ({ palette, imageOpacity, blendMode, grayscaleType, colorInterpolationFilters }) => {
             if (!palette) {
                 return null;
             }
@@ -148,10 +148,10 @@ const SVGModel: ISVGModel = {
                 } as any,
             );
 
-            const playgrounds = config.playgrounds.map((playground: any) => {
+            const playgrounds = config.playgrounds.map((playground: { [k: string]: any }) => {
                 switch (playground.id) {
                     case 'colormatrix': {
-                        const { value } = typesList.find((i: any) => i.id === grayscaleType);
+                        const { value } = typesList.find(i => i.id === grayscaleType) ?? {};
                         playground.params.values = { value };
                         break;
                     }
@@ -178,7 +178,7 @@ const SVGModel: ISVGModel = {
             };
 
             return {
-                id: `filter__${paletteId}`,
+                id: `filter__${palette.id}`,
                 playgrounds,
                 filter,
                 palette,
@@ -191,7 +191,7 @@ const SVGModel: ISVGModel = {
         state.paletteId = id;
     }),
     setPalatte: action((state, palette) => {
-        state.palettes = state.palettes.map((item: any) => {
+        state.palettes = state.palettes.map(item => {
             if (state.paletteId === item.id) {
                 item = {
                     ...item,
