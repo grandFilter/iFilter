@@ -19,25 +19,6 @@ export function loadImage(url: string, crossOrigin: boolean = false): Promise<HT
 }
 
 /**
- *
- *
- * @export
- * @param {File} file
- * @return {*}
- */
-export async function getBase64ByFile(file: File) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            const base64 = reader.result;
-            resolve(base64);
-        };
-        reader.onerror = err => reject(err);
-        reader.readAsDataURL(file);
-    });
-}
-
-/**
  * 深拷贝对象 (JSON.parse(JSON.stringify(data)))
  *
  * @export
@@ -103,4 +84,47 @@ export function SVGToImage(
         image.onload = () => resolve(image);
         image.onerror = err => reject(err);
     });
+}
+
+/**
+ * Blob 转为  DataURL
+ *
+ * @export
+ * @param {Blob} blob
+ * @return {(Promise<string | ArrayBuffer | null>)}
+ */
+
+export async function blobToDataURL(blob: Blob): Promise<string | ArrayBuffer | null> {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            const dataURL = reader.result;
+            resolve(dataURL);
+        };
+        reader.onerror = err => reject(err);
+        reader.readAsDataURL(blob);
+    });
+}
+
+/**
+ * DataURL 转为 Blob
+ *
+ * @export
+ * @param {string} dataURL
+ * @return {Blob}
+ */
+export function dataURLToBlob(dataURL: string): Blob {
+    const [prefix, data] = dataURL.split(',');
+
+    let temp = prefix.match(/:(.*?);/);
+
+    const mime = temp ? temp[0] : '';
+
+    const base64 = atob(data);
+    let n = base64.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+        u8arr[n] = base64.charCodeAt(n);
+    }
+    return new Blob([u8arr], { type: mime });
 }

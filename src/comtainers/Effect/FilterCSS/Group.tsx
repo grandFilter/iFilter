@@ -55,7 +55,7 @@ export default function FilterCSSGroup({ onInput, opacity }: { onInput?: Functio
                         className={CN([styles.item, active === index && styles.active])}
                     >
                         <h2>{name}</h2>
-                        <div className={styles.filter}>
+                        <div className={styles.filterItem}>
                             {base64 && (
                                 <figure className={CN([filterStyles[className]])}>
                                     <img src={base64} alt="" />

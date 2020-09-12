@@ -1,6 +1,6 @@
 .filter {
-    width: 100vw;
-    height: calc(100vh - 400px);
+    max-width: 100vw;
+    min-height: calc(100vh - 400px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,7 +47,8 @@
 }
 
 .group {
-    position: relative;
+    position: sticky;
+    bottom: 0;
     height: 400px;
     background-color: rgba(0, 0, 0, 0.8);
     padding: 20px 15px;
@@ -74,7 +75,8 @@
             h2 {
                 color: #fff;
             }
-            .filter {
+            .filterItem {
+                border: 5px solid transparent;
                 border-color: #e31937;
             }
         }
@@ -86,10 +88,9 @@
             margin: 0 0 15px;
         }
 
-        .filter {
-            border: 5px solid transparent;
-            width: 180px;
-            height: 180px;
+        .filterItem {
+            width: 220px;
+            height: 220px;
         }
 
         figure {
@@ -122,6 +123,7 @@
             img {
                 object-fit: cover;
                 width: 100%;
+                height: 100%;
             }
         }
     }
