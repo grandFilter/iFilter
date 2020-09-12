@@ -4,5 +4,9 @@ import styles from './styles.module.scss';
 
 export default function LayoutIndex(props: { children?: ReactNode }) {
     const { children } = props;
-    return <main className={styles.layout}>{children}</main>;
+    return (
+        <main className={styles.layout}>
+            <div className={styles.box}>{children}</div>
+        </main>
+    );
 }

@@ -2,12 +2,22 @@
     height: 100%;
     min-height: 100vh;
     position: relative;
-    background-color: #282828;
+    background-color: rgba(40, 40, 40, 0.92);
+    .box {
+        max-width: 100vw;
+        min-height: 100vh;
+        /* prettier-ignore */
+        max-width: 750PX;
+        margin: 0 auto;
+        background-color: rgba(40, 40, 40, 1);
+    }
 }
 
 .editor {
-    width: 100vw;
-    height: 100vh;
+    max-width: 100vw;
+    // height: 100vh;
+    min-height: 100vh;
+
     // display: flex;
     // flex-direction: column;
     // align-items: center;
@@ -19,10 +29,12 @@
     }
     .main {
         position: relative;
-        height: calc(100vh - 100px - 600px);
+        // min-height: calc(100vh - 100px - 600px);
     }
     .footer {
-        position: relative;
+        position: sticky;
         height: 600px;
+        bottom: 0;
+        background-color: rgba(40, 40, 40, 0.9);
     }
 }
