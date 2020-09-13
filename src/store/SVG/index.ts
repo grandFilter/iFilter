@@ -3,13 +3,17 @@ import { action, computed } from 'easy-peasy';
 import { ISVGModel } from '@/types/store/SVG';
 import { colorsListToRGBValues } from '@/utils/color';
 
+import { Assign } from 'utility-types';
+
 // import primitives from './primitives';
 // import attributes from './attributes';
 
 import palettes from './palettes.json';
 import presets from './presets.json';
 
-const blendModeList = [
+const deepCopy = (data: any) => JSON.parse(JSON.stringify(data)) as typeof data;
+
+const LIST_BLENDMODES = [
     'normal',
     'multiply',
     'screen',
@@ -28,7 +32,7 @@ const blendModeList = [
     'luminosity',
 ];
 
-const typesList = [
+const LIST_TYPES = [
     {
         id: 'red',
         name: 'Red',
@@ -63,27 +67,106 @@ const typesList = [
     },
 ];
 
+const CONFIG = {
+    playgrounds: presets.primitives,
+    filter: {
+        x: '-10%',
+        y: '-10%',
+        width: '120%',
+        height: '120%',
+        filterUnits: 'objectBoundingBox',
+        primitiveUnits: 'userSpaceOnUse',
+        colorInterpolationFilters: 'sRGB',
+    },
+    imageOpacity: 0.5,
+    blendMode: 'normal',
+    grayscaleType: 'red',
+};
+
+function getFilterPlaygrounds({
+    playgrounds,
+    palette,
+    imageOpacity = 0,
+    blendMode = 'normal',
+    grayscaleType = 'red',
+}: Assign<
+    Pick<typeof CONFIG, 'playgrounds' | 'imageOpacity' | 'blendMode' | 'grayscaleType'>,
+    { palette: typeof palettes[0]; playgrounds: {}[] }
+>) {
+    const rgbValues = colorsListToRGBValues(palette.colors);
+
+    const propsSet = Object.keys(rgbValues).reduce(
+        (prev, key) => {
+            const id = `func${key.toUpperCase()}`;
+
+            prev[id] = {
+                id,
+                param: 'tableValues',
+                value: rgbValues[key as keyof typeof rgbValues].join(' '),
+            };
+
+            return prev;
+        },
+        {
+            funcA: {
+                id: 'funcA',
+                param: 'tableValues',
+                value: `0 ${imageOpacity}`,
+            },
+        } as any,
+    );
+
+    return playgrounds.map((playground: { [k: string]: any }) => {
+        switch (playground.id) {
+            case 'colormatrix': {
+                const { value } = LIST_TYPES.find(i => i.id === grayscaleType) ?? {};
+                playground.params.values = { value };
+                break;
+            }
+            case 'componentTransfer': {
+                playground.children = playground.children.map((item: any) => {
+                    const { param, value } = (propsSet[item.id] || {}) as any;
+                    (item.params || {})[param] = { value };
+                    return item;
+                });
+                break;
+            }
+            case 'blend': {
+                playground.params.mode = { value: blendMode };
+                break;
+            }
+        }
+
+        return playground;
+    });
+}
+
+const palatteFilters = palettes.map(palette => {
+    const { filter, playgrounds: originPlaygrounds, imageOpacity, blendMode, grayscaleType } = deepCopy(CONFIG);
+    const playgrounds = getFilterPlaygrounds({
+        palette,
+        playgrounds: originPlaygrounds,
+        imageOpacity,
+        blendMode,
+        grayscaleType,
+    });
+
+    return {
+        filterId: `ORIGIN__${palette.id}`,
+        filter,
+        playgrounds,
+        palette,
+    };
+});
+
 const SVGModel: ISVGModel = {
     palettes, // 调色板
     paletteId: 'teal-white',
-    config: {
-        playgrounds: presets.primitives,
-        filter: {
-            x: '-10%',
-            y: '-10%',
-            width: '120%',
-            height: '120%',
-            filterUnits: 'objectBoundingBox',
-            primitiveUnits: 'userSpaceOnUse',
-            colorInterpolationFilters: 'sRGB',
-        },
-        imageOpacity: 0.5,
-        blendMode: 'normal',
-        grayscaleType: 'red',
-    },
-    blendModeList,
-    typesList,
+    config: { ...CONFIG },
+    blendModeList: LIST_BLENDMODES,
+    typesList: LIST_TYPES,
     colorTypeList: ['sRGB', 'linearRGB'],
+    palatteFilters: deepCopy(palatteFilters),
 
     // ----------------------------------------------
     // computed
@@ -101,75 +184,17 @@ const SVGModel: ISVGModel = {
             colorInterpolationFilters: config.filter.colorInterpolationFilters,
         };
     }),
-    filterConfig: computed(
-        ({
-            config: {
-                imageOpacity,
-                blendMode,
-                grayscaleType,
-                filter: { colorInterpolationFilters },
-            },
-            getFilterConfig,
-        }: any) => {
-            return getFilterConfig({
-                imageOpacity,
-                blendMode,
-                grayscaleType,
-                colorInterpolationFilters,
-            });
-        },
-    ),
-    getFilterConfig: computed(({ config, typesList }) => {
+    getFilterConfig: computed(({ config }) => {
         return ({ palette, imageOpacity, blendMode, grayscaleType, colorInterpolationFilters }) => {
             if (!palette) {
                 return null;
             }
-
-            const rgbValues = colorsListToRGBValues(palette.colors);
-
-            const propsSet = Object.keys(rgbValues).reduce(
-                (prev, key) => {
-                    const id = `func${key.toUpperCase()}`;
-
-                    prev[id] = {
-                        id,
-                        param: 'tableValues',
-                        value: rgbValues[key as keyof typeof rgbValues].join(' '),
-                    };
-
-                    return prev;
-                },
-                {
-                    funcA: {
-                        id: 'funcA',
-                        param: 'tableValues',
-                        value: `0 ${imageOpacity}`,
-                    },
-                } as any,
-            );
-
-            const playgrounds = config.playgrounds.map((playground: { [k: string]: any }) => {
-                switch (playground.id) {
-                    case 'colormatrix': {
-                        const { value } = typesList.find(i => i.id === grayscaleType) ?? {};
-                        playground.params.values = { value };
-                        break;
-                    }
-                    case 'componentTransfer': {
-                        playground.children = playground.children.map((item: any) => {
-                            const { param, value } = (propsSet[item.id] || {}) as any;
-                            (item.params || {})[param] = { value };
-                            return item;
-                        });
-                        break;
-                    }
-                    case 'blend': {
-                        playground.params.mode = { value: blendMode };
-                        break;
-                    }
-                }
-
-                return playground;
+            const playgrounds = getFilterPlaygrounds({
+                playgrounds: config.playgrounds,
+                palette,
+                imageOpacity,
+                blendMode,
+                grayscaleType,
             });
 
             const filter = {

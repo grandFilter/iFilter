@@ -29,6 +29,26 @@ export interface ISVGModel {
         value: string;
     }[];
     colorTypeList: string[];
+    palatteFilters: {
+        filterId: string;
+        filter: {
+            x: string;
+            y: string;
+            width: string;
+            height: string;
+            filterUnits: string;
+            primitiveUnits: string;
+            colorInterpolationFilters: string;
+        };
+        playgrounds: {
+            [k: string]: any;
+        }[];
+        palette: {
+            id: string;
+            name: string;
+            colors: string[];
+        };
+    }[];
 
     palette: Computed<
         ISVGModel,
@@ -66,27 +86,7 @@ export interface ISVGModel {
             colorInterpolationFilters: string;
         }
     >;
-    filterConfig: Computed<
-        ISVGModel,
-        {
-            id: string;
-            playgrounds: {}[];
-            filter: {
-                x: string;
-                y: string;
-                width: string;
-                height: string;
-                filterUnits: string;
-                primitiveUnits: string;
-                colorInterpolationFilters: string;
-            };
-            palette: {
-                id: string;
-                name: string;
-                colors: string[];
-            };
-        }
-    >;
+
     getFilterConfig: Computed<
         ISVGModel,
         ({
@@ -95,7 +95,7 @@ export interface ISVGModel {
             blendMode,
             grayscaleType,
             colorInterpolationFilters,
-        }: Partial<{
+        }: {
             palette: {
                 id: string;
                 name: string;
@@ -105,7 +105,7 @@ export interface ISVGModel {
             blendMode: string;
             grayscaleType: string;
             colorInterpolationFilters: string;
-        }>) => {
+        }) => {
             id: string;
             playgrounds: {}[];
             filter: {

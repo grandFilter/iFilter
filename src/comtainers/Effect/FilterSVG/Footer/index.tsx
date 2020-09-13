@@ -16,7 +16,7 @@ enum TYPE_NAME {
 }
 
 export default function Footer() {
-    const { palettes, paletteId } = useStoreState(({ SVG }) => SVG);
+    const { palettes, paletteId, palatteFilters } = useStoreState(({ SVG }) => SVG);
     const { setPalatteId } = useStoreActions(({ SVG }) => SVG) as any;
 
     const [state, setState] = useState<{
@@ -55,16 +55,18 @@ export default function Footer() {
         }
     };
 
-    const palettesList = palettes.map((item, index: number) => {
+    const palettesList = palatteFilters.map(({ filterId, palette }, index: number) => {
         return {
-            ...item,
+            ...palette,
             children: (
                 <div
-                    onClick={() => onSelectAndChangeColor(item, index)}
-                    className={CN([styles.palette, item.id === paletteId && styles.active])}
+                    onClick={() => onSelectAndChangeColor(palette, index)}
+                    className={CN([styles.palette, palette.id === paletteId && styles.active])}
                 >
-                    <h2>{item.name}</h2>
-                    <figure>{thumbnail && <img src={thumbnail} alt="" />}</figure>
+                    <h2>{palette.name}</h2>
+                    <figure>
+                        {thumbnail && <img src={thumbnail} alt="" style={{ filter: `url(#${filterId})` }} />}
+                    </figure>
                 </div>
             ),
         };
@@ -72,6 +74,7 @@ export default function Footer() {
 
     return (
         <div className={styles.wrap}>
+            {/* thumbnail slider */}
             <aside className={styles.area}>
                 {(() => {
                     switch (state.tab) {
@@ -82,6 +85,7 @@ export default function Footer() {
                     }
                 })()}
             </aside>
+            {/* TAB */}
             <ul className={styles.tab}>
                 {[TYPE_NAME.Filter, TYPE_NAME.Editor].map(tab => (
                     <li

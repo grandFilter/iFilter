@@ -7,9 +7,6 @@ import Footer from './Footer';
 
 import { FilterProvider } from './FilterContext';
 
-// import imageShrine from '@/assets/images/shrine.jpg';
-// console.log(imageShrine);
-
 export default function FilterSVG() {
     const refSVG = useRef<SVGSVGElement>(null);
     const [state, setState] = useState<any>(null);
