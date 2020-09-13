@@ -128,3 +128,53 @@ export function dataURLToBlob(dataURL: string): Blob {
     }
     return new Blob([u8arr], { type: mime });
 }
+
+/**
+ * 获取缩略图
+ *
+ * @param {string} src - 图片地址
+ * @return {Blob}
+ */
+export async function getThumbnailBlob(src: string): Promise<Blob> {
+    const image = await loadImage(src);
+
+    const { width, height } = image;
+
+    const widthThreshold = 600; // 宽度阀值
+
+    let dWidth = width,
+        dHeight = height;
+
+    if (width < height) {
+        // 竖图
+        dWidth = widthThreshold;
+        dHeight = widthThreshold * (height / width);
+    } else if (width > height) {
+        // 横图
+        dWidth = widthThreshold * (width / height);
+        dHeight = widthThreshold;
+    } else {
+        // 等宽高
+        dWidth = widthThreshold;
+        dHeight = widthThreshold;
+    }
+
+    const canvasElem = document.createElement('canvas');
+    const ctx = canvasElem.getContext('2d');
+
+    // 宽度等比缩放
+    canvasElem.width = dWidth;
+    canvasElem.height = dHeight;
+
+    ctx?.drawImage(image, 0, 0, Math.floor(width), Math.floor(height), 0, 0, Math.floor(dWidth), Math.floor(dHeight));
+
+    return new Promise((resolve: (blob: Blob) => void, reject) => {
+        canvasElem.toBlob(
+            blob => {
+                blob ? resolve(blob) : reject(new Error('Blob empey'));
+            },
+            'image/png',
+            0.95,
+        );
+    });
+}

@@ -1,6 +1,5 @@
 import React, { useContext, forwardRef, DetailedHTMLProps, LegacyRef, SVGAttributes } from 'react';
 import { useStoreState } from '@/store';
-
 import { FilterContext } from '../FilterContext';
 
 import Filter from './Filter';
