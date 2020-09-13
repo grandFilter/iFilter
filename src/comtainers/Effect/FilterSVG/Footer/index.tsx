@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useStoreState, useStoreActions } from '@/store';
 
-import { useBase64 } from '@/services/hooks/localforage';
+import { FilterContext } from '../FilterContext';
 
 import ScrollSnap from '@/components/ScrollSnap';
 import Editor from './Editor/index';
@@ -32,7 +32,8 @@ export default function Footer() {
             colors: [],
         },
     });
-    const [base64] = useBase64();
+
+    const [{ thumbnail }] = useContext(FilterContext);
 
     const onSelectAndChangeColor = (
         item: {
@@ -63,7 +64,7 @@ export default function Footer() {
                     className={CN([styles.palette, item.id === paletteId && styles.active])}
                 >
                     <h2>{item.name}</h2>
-                    <figure>{base64 && <img src={base64} alt="" />}</figure>
+                    <figure>{thumbnail && <img src={thumbnail} alt="" />}</figure>
                 </div>
             ),
         };

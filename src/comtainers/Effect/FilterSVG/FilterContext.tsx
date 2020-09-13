@@ -1,75 +1,75 @@
-import React, { useState, useEffect, createContext, ReactElement } from 'react';
+import React, { useEffect, useReducer, useMemo, createContext, ReactElement } from 'react';
 import { useStoreState } from '@/store';
+import { useBase64 } from '@/services/hooks/localforage';
 
-type IFilterContext = [
-    Partial<{
-        palette: {
-            id: string;
-            name: string;
-            colors: string[];
-        };
-        imageOpacity: number;
-        blendMode: string;
-        grayscaleType: string;
-        colorInterpolationFilters: string;
-    }>,
-    Function,
-];
+import { dataURLToBlob } from '@/utils';
 
-export const FilterContext = createContext<IFilterContext>([{}, () => {}]);
+const defaltValue = {
+    base64: '',
+    thumbnail: '',
+    palette: (undefined as unknown) as { id: string; name: string; colors: string[] } | undefined,
+    imageOpacity: 100,
+    blendMode: '',
+    grayscaleType: '',
+    colorInterpolationFilters: '',
+};
+
+type IFilterContext = [typeof defaltValue, (payload: Partial<IFilterContext[0]>) => void];
+
+enum ACTION {
+    change = 'change',
+}
+
+// TODO: 声明 any
+export const FilterContext = createContext<any>([defaltValue, () => {}]);
 
 export function FilterProvider({ children }: { children: ReactElement }) {
     const { palette, imageOpacity, blendMode, grayscaleType, colorInterpolationFilters } = useStoreState(
         ({ SVG }) => SVG.options,
     );
+    const [base64] = useBase64();
 
-    const [state, setState] = useState<IFilterContext>([
-        // 0: getter
-        {
+    const initialData = {
+        base64,
+        thumbnail: base64 && URL.createObjectURL(dataURLToBlob(base64)), // TODO: 压缩图片
+        palette,
+        imageOpacity,
+        blendMode,
+        grayscaleType,
+        colorInterpolationFilters,
+    };
+    const reducer = (
+        state: IFilterContext[0],
+        action: { type: keyof typeof ACTION; payload: Partial<IFilterContext[0]> },
+    ) => {
+        switch (action.type) {
+            case ACTION.change:
+                return { ...state, ...action.payload };
+            default:
+                return state;
+        }
+    };
+
+    const [state, dispatch] = useReducer(reducer, initialData);
+    const setState = (payload: Partial<IFilterContext[0]>) => dispatch({ type: ACTION.change, payload });
+
+    // 使用 useMemo 规避 context 消费的组件 再次render
+    const contextValue = useMemo(() => {
+        return [state, setState];
+    }, [state]);
+
+    // store 层数据变化，副作用到 context
+    useEffect(() => {
+        setState({
+            base64,
+            thumbnail: base64 && URL.createObjectURL(dataURLToBlob(base64)),
             palette,
             imageOpacity,
             blendMode,
             grayscaleType,
             colorInterpolationFilters,
-        },
-        // 1: setter
-        ({ palette, imageOpacity, blendMode, grayscaleType, colorInterpolationFilters }: IFilterContext[0]) => {
-            const data = state[0];
+        });
+    }, [base64, blendMode, colorInterpolationFilters, grayscaleType, imageOpacity, palette]);
 
-            imageOpacity && imageOpacity >= 0 && (data.imageOpacity = imageOpacity);
-            blendMode && (data.blendMode = blendMode);
-            grayscaleType && (data.grayscaleType = grayscaleType);
-            colorInterpolationFilters && (data.colorInterpolationFilters = colorInterpolationFilters);
-
-            // deep object
-            palette &&
-                (data.palette = {
-                    ...data.palette,
-                    ...palette,
-                });
-
-            const result = { ...state[0], ...data };
-
-            setState([result, state[1]]);
-        },
-    ]);
-
-    // store 层数据变化，副作用到 context
-    useEffect(() => {
-        setState([
-            {
-                ...state[0],
-                palette,
-                imageOpacity,
-                blendMode,
-                grayscaleType,
-                colorInterpolationFilters,
-            },
-            state[1],
-        ]);
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [palette, imageOpacity, blendMode, grayscaleType, colorInterpolationFilters]);
-
-    return <FilterContext.Provider value={state}>{children}</FilterContext.Provider>;
+    return <FilterContext.Provider value={contextValue}>{children}</FilterContext.Provider>;
 }

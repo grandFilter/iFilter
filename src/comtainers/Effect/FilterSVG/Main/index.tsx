@@ -1,8 +1,6 @@
 import React, { useContext, forwardRef, DetailedHTMLProps, LegacyRef, SVGAttributes } from 'react';
 import { useStoreState } from '@/store';
 
-import { useBase64 } from '@/services/hooks/localforage';
-
 import { FilterContext } from '../FilterContext';
 
 import Filter from './Filter';
@@ -12,11 +10,11 @@ import styles from './styles.module.less';
 export default forwardRef(MainSvg);
 
 function MainSvg(props: DetailedHTMLProps<SVGAttributes<SVGSVGElement>, SVGSVGElement>, ref: LegacyRef<SVGSVGElement>) {
-    const [{ palette, imageOpacity, blendMode, grayscaleType, colorInterpolationFilters }] = useContext(FilterContext);
+    const [{ base64, palette, imageOpacity, blendMode, grayscaleType, colorInterpolationFilters }] = useContext(
+        FilterContext,
+    );
 
     const { getFilterConfig } = useStoreState(({ SVG }) => SVG);
-
-    const [base64] = useBase64();
 
     const { id = '', filter = {}, playgrounds = [] } =
         getFilterConfig({
