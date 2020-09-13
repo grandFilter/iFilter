@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import { SVG_EDITOR_TYPE } from '@/constants';
 
@@ -6,6 +6,7 @@ import ScrollSnap from '@/components/ScrollSnap';
 import { TransparencyIcon, BrightnessIcon } from '@/components/Icon';
 
 import Operator from './Operator';
+import { FilterContext } from '../../FilterContext';
 
 // import CN from 'classnames';
 import styles from './styles.module.less';
@@ -18,9 +19,18 @@ const actionList = [
 ];
 
 export default function SVGEditor() {
+    const [, setCtx] = useContext(FilterContext);
+
     const [state, setState] = useState({ editing: false, type: '' });
 
-    const handleSelect = (type: string) => setState({ ...state, editing: true, type });
+    const handleSelect = (type: string) => {
+        setCtx({ editing: true });
+        setState({ ...state, editing: true, type });
+    };
+    const handleClose = () => {
+        setCtx({ editing: false });
+        setState({ ...state, editing: false });
+    };
     const list = actionList.map(item => {
         return {
             ...item,
@@ -38,7 +48,7 @@ export default function SVGEditor() {
             <aside className={styles.eidtor}>
                 <ScrollSnap list={list} />
             </aside>
-            {state.editing && <Operator type={state.type} onClose={() => setState({ ...state, editing: false })} />}
+            {state.editing && <Operator type={state.type} onClose={handleClose} />}
         </>
     );
 }

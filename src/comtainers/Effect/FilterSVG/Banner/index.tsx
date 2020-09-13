@@ -6,7 +6,7 @@ import { SVGToImage } from '@/utils';
 import styles from './styles.module.less';
 
 export default function Banner({ target }: { target: SVGSVGElement | null }) {
-    const [{ palette }] = useContext(FilterContext);
+    const [{ editing, palette }] = useContext(FilterContext);
 
     const { name = '' } = palette ?? {};
 
@@ -19,9 +19,11 @@ export default function Banner({ target }: { target: SVGSVGElement | null }) {
         <div className={styles.banner}>
             <div className={styles.center}>{name}</div>
             <div className={styles.right}>
-                <button className={styles.save} onClick={() => onSave()}>
-                    Done
-                </button>
+                {!editing && (
+                    <button className={styles.save} onClick={() => onSave()}>
+                        Done
+                    </button>
+                )}
             </div>
         </div>
     );

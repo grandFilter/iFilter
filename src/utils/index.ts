@@ -19,7 +19,7 @@ export function loadImage(url: string, crossOrigin: boolean = false): Promise<HT
 }
 
 /**
- * 深拷贝对象 (JSON.parse(JSON.stringify(data)))
+ * 深拷贝对象
  *
  * @export
  * @param {IDictionary<any>} data
@@ -48,6 +48,16 @@ export function deepClone<T = IDictionary<any>>(data: T) {
     };
 
     return walk(data) as T;
+}
+
+/**
+ * 深拷贝对象 (JSON.parse(JSON.stringify(data)))
+ *
+ * @param {T} data
+ * @return {T}
+ */
+export function deepCopy<T>(data: T): T {
+    return JSON.parse(JSON.stringify(data));
 }
 
 /**
@@ -93,7 +103,6 @@ export function SVGToImage(
  * @param {Blob} blob
  * @return {(Promise<string | ArrayBuffer | null>)}
  */
-
 export async function blobToDataURL(blob: Blob): Promise<string | ArrayBuffer | null> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();

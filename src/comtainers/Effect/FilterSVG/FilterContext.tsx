@@ -10,7 +10,7 @@ const defaltValue = {
     base64: '',
     thumbnail: '',
     palette: { id: '', name: '', colors: [] } as { id: string; name: string; colors: string[] },
-    imageOpacity: 100,
+    imageOpacity: 0.5,
     blendMode: '',
     grayscaleType: '',
     colorInterpolationFilters: '',

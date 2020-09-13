@@ -1,11 +1,10 @@
 import React, { useState, useContext } from 'react';
 import { useStoreState, useStoreActions } from '@/store';
 
-import { FilterContext } from '../FilterContext';
-
 import ScrollSnap from '@/components/ScrollSnap';
 import Editor from './Editor/index';
 import Color from './Color';
+import { FilterContext } from '../FilterContext';
 
 import CN from 'classnames';
 import styles from './styles.module.less';
@@ -17,7 +16,7 @@ enum TYPE_NAME {
 
 export default function Footer() {
     const { palettes, paletteId, palatteFilters } = useStoreState(({ SVG }) => SVG);
-    const { setPalatteId } = useStoreActions(({ SVG }) => SVG) as any;
+    const { setPalatteId } = useStoreActions(({ SVG }) => SVG);
 
     const [state, setState] = useState<{
         tab: TYPE_NAME;
@@ -33,7 +32,7 @@ export default function Footer() {
         },
     });
 
-    const [{ thumbnail }] = useContext(FilterContext);
+    const [{ thumbnail }, setCtx] = useContext(FilterContext);
 
     const onSelectAndChangeColor = (
         item: {
@@ -45,6 +44,7 @@ export default function Footer() {
     ) => {
         if (paletteId === item.id) {
             // 二次点击: 编辑颜色
+            setCtx({ editing: true });
             setState({
                 ...state,
                 editColor: true,
@@ -53,6 +53,14 @@ export default function Footer() {
         } else {
             setPalatteId(item.id);
         }
+    };
+
+    const handleClose = () => {
+        setCtx({ editing: false });
+        setState({
+            ...state,
+            editColor: false,
+        });
     };
 
     const palettesList = palatteFilters.map(({ filterId, palette }, index: number) => {
@@ -98,17 +106,7 @@ export default function Footer() {
                 ))}
             </ul>
             {/* change color */}
-            {state.editColor && (
-                <Color
-                    value={state.palette}
-                    onClose={() =>
-                        setState({
-                            ...state,
-                            editColor: false,
-                        })
-                    }
-                />
-            )}
+            {state.editColor && <Color value={state.palette} onClose={handleClose} />}
         </div>
     );
 }

@@ -49,16 +49,6 @@ export interface ISVGModel {
             colors: string[];
         };
     }[];
-
-    palette: Computed<
-        ISVGModel,
-        | {
-              id: string;
-              name: string;
-              colors: string[];
-          }
-        | undefined
-    >;
     options: Computed<
         ISVGModel,
         {
@@ -142,7 +132,5 @@ export interface ISVGModel {
             colorInterpolationFilters: string;
         }>
     >;
-
-    // TODO
     // [key: string]: any;
 }
