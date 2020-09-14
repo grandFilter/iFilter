@@ -1,4 +1,6 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState } from 'react';
+
+import InputColor from '@/components/Input/Color';
 
 import Nouislider from 'nouislider-react';
 import 'nouislider/distribute/nouislider.css';
@@ -54,6 +56,12 @@ export default function SliderHEXColor({ color, onChange }: { color: string; onC
 
     return (
         <div className={styles.colorSlider}>
+            <h2 className={styles.titleWrap}>
+                <strong>{color.toLocaleUpperCase()}</strong>
+                <span>
+                    <InputColor color={color} onChange={(value: string) => handleChange(value)} />
+                </span>
+            </h2>
             <div className={styles.colorpicker}>
                 {COLORS.map((item, index) => (
                     <Nouislider
@@ -70,7 +78,7 @@ export default function SliderHEXColor({ color, onChange }: { color: string; onC
                             min: 0,
                             max: 255,
                         }}
-                        pips={{
+                        data-pips={{
                             mode: 'count',
                             values: 6,
                             density: 5,
@@ -79,13 +87,6 @@ export default function SliderHEXColor({ color, onChange }: { color: string; onC
                         onChange={sliderChangeHandler(index)}
                     />
                 ))}
-            </div>
-            <div className={styles.result}>
-                <input
-                    type="color"
-                    value={color}
-                    onChange={(event: FormEvent<HTMLInputElement>) => handleChange(event.currentTarget.value)}
-                />
             </div>
         </div>
     );

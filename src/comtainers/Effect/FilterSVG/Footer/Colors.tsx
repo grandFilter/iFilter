@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useStoreActions } from '@/store';
 import { FilterContext } from '../FilterContext';
 
-import SliderHEXColor from '@/components/Slider/HEXColor';
+import SliderRGB from '@/components/Slider/RGB';
 import ScrollSnap from '@/components/ScrollSnap';
 
 import styles from './styles.module.less';
@@ -57,12 +57,7 @@ export default function Color({
         palette?.colors.map((color: string, index: number) => {
             return {
                 color,
-                children: (
-                    <div>
-                        <h2 style={{ margin: 0, textAlign: 'center' }}>{color}</h2>
-                        <SliderHEXColor color={color} onChange={(value: string) => handleChange(value, index)} />
-                    </div>
-                ),
+                children: <SliderRGB color={color} onChange={(value: string) => handleChange(value, index)} />,
             };
         }) || [];
 

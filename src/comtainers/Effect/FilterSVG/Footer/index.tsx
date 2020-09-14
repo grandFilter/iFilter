@@ -3,7 +3,7 @@ import { useStoreState, useStoreActions } from '@/store';
 
 import ScrollSnap from '@/components/ScrollSnap';
 import Editor from './Editor/index';
-import Color from './Color';
+import Colors from './Colors';
 import { FilterContext } from '../FilterContext';
 
 import CN from 'classnames';
@@ -106,7 +106,7 @@ export default function Footer() {
                 ))}
             </ul>
             {/* change color */}
-            {state.editColor && <Color value={state.palette} onClose={handleClose} />}
+            {state.editColor && <Colors value={state.palette} onClose={handleClose} />}
         </div>
     );
 }
