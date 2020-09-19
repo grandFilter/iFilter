@@ -3,7 +3,7 @@ import React, { useState, useContext } from 'react';
 import { SVG_EDITOR_TYPE } from '@/constants';
 
 import ScrollSnap from '@/components/ScrollSnap';
-import { TransparencyIcon, BrightnessIcon } from '@/components/Icon';
+import { BrightnessIcon, BlendIcon, ChannelIcon, InterpolarionIcon } from '@/components/Icon';
 
 import Operator from './Operator';
 import { FilterContext } from '../../FilterContext';
@@ -13,9 +13,9 @@ import styles from './styles.module.less';
 
 const actionList = [
     { type: SVG_EDITOR_TYPE.Transparency, icon: <BrightnessIcon /> },
-    { type: SVG_EDITOR_TYPE.Blend, icon: <TransparencyIcon /> },
-    { type: SVG_EDITOR_TYPE.Channel, icon: <TransparencyIcon /> },
-    { type: SVG_EDITOR_TYPE.Interpolation, icon: <TransparencyIcon /> }, // color-interpolation-filters
+    { type: SVG_EDITOR_TYPE.Blend, icon: <BlendIcon /> },
+    { type: SVG_EDITOR_TYPE.Channel, icon: <ChannelIcon /> },
+    { type: SVG_EDITOR_TYPE.Interpolation, icon: <InterpolarionIcon /> }, // color-interpolation-filters
 ];
 
 export default function SVGEditor() {
