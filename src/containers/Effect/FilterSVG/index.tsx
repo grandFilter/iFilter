@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-import LayoutEditor from '@/comtainers/Layout/Editor';
+import LayoutEditor from '@/containers/Layout/Editor';
 import Banner from './Banner';
 import Main from './Main';
 import Footer from './Footer';

@@ -8,7 +8,7 @@
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"
   },
-  "homepage": "https://f2er.meitu.com/wjy/a/",
+  "homepage": ".",
   "eslintConfig": {
     "extends": "react-app"
   },

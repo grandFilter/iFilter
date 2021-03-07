@@ -1,11 +1,11 @@
 import React from 'react';
-import { Router, Route, BrowserRouter } from 'react-router-dom';
+import { Router, Route, HashRouter /* BrowserRouter */ } from 'react-router-dom';
 import { AnimatedSwitch } from 'react-router-transition';
 import history from '@/utils/history';
 
-import LayoutIndex from '@/comtainers/Layout';
-import HomeIndex from '@/comtainers/Home';
-import EffectIndex from '@/comtainers/Effect';
+import LayoutIndex from '@/containers/Layout';
+import HomeIndex from '@/containers/Home';
+import EffectIndex from '@/containers/Effect';
 
 import styles from './app.module.less';
 
@@ -19,14 +19,14 @@ function App() {
                 className={styles.switch}
             >
                 <LayoutIndex>
-                    <BrowserRouter basename="/wjy/a">
+                    <HashRouter basename="/">
                         <Route path="/" exact>
                             <HomeIndex />
                         </Route>
                         <Route path="/effect">
                             <EffectIndex />
                         </Route>
-                    </BrowserRouter>
+                    </HashRouter>
                 </LayoutIndex>
             </AnimatedSwitch>
         </Router>
