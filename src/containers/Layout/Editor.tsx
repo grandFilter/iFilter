@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import styles from './styles.module.scss';
+import styles from './styles.module.less';
 
 export default function LayoutEditor({
     Banner,
