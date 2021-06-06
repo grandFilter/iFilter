@@ -1,10 +1,10 @@
-import React, { RefObject } from 'react';
+import React from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 
-import "keen-slider/keen-slider.min.css";
+import 'keen-slider/keen-slider.min.css';
 import styles from './styles.module.less';
 
-export default function CarouselIndex() {
+export default function CarouselIndex({ className }: { className?: string }) {
     const [rotation, setRotation] = React.useState(0);
 
     const [sliderRef] = useKeenSlider({
@@ -19,12 +19,12 @@ export default function CarouselIndex() {
     });
 
     return (
-        <div
+        <header
             style={{
                 backgroundImage: `linear-gradient(${rotation}deg, black 0px, black 50%, white 50%, white 100%)`,
             }}
-            className={styles.rotation}
-            ref={sliderRef as RefObject<any>}
+            className={[styles.rotation, className || ''].join(' ')}
+            ref={sliderRef}
         >
             <div
                 className={styles.inner}
@@ -34,6 +34,6 @@ export default function CarouselIndex() {
             >
                 <span>keen-slider</span>
             </div>
-        </div>
+        </header>
     );
 }

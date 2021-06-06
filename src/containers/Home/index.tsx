@@ -3,8 +3,8 @@ import { useHistory } from 'react-router-dom';
 
 import { useBase64 } from '@/services/hooks/localforage';
 
-// import CarouselIndex from '@/components/Carousel';
-// import CarouselSlider from '@/components/Carousel/Slider';
+import CarouselIndex from '@/components/Carousel';
+import CarouselSlider from '@/components/Carousel/Slider';
 import Camera from '@/components/Camera';
 import { CameraIcon } from '@/components/Icon';
 
@@ -24,14 +24,15 @@ export default function HomeIndex() {
     };
     return (
         <>
-            {/* <CarouselIndex /> */}
-            {/* <CarouselSlider /> */}
-            <header className={styles.header}></header>
-            <button className={styles.button} onClick={() => setVisible(true)}>
-                <CameraIcon className={styles.icon} />
-                <br />
-                <strong>Camera</strong>
-            </button>
+            <article className={styles.article}>
+                <CarouselSlider />
+                <main className={styles.main}>
+                    <button className={styles.button} onClick={() => setVisible(true)}>
+                        <CameraIcon className={styles.icon} />
+                    </button>
+                    <h2>SELFIE</h2>
+                </main>
+            </article>
 
             <Camera visible={visible} onClose={() => setVisible(false)} onInput={inputHandle} />
         </>

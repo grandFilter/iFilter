@@ -1,54 +1,69 @@
-import React, { RefObject } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useKeenSlider } from 'keen-slider/react';
 
-import "keen-slider/keen-slider.min.css";
+import 'keen-slider/keen-slider.min.css';
 import styles from './styles.module.less';
 
-
 export default function CarouselSlider() {
-    const [pause, setPause] = React.useState(false);
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [pause, setPause] = useState(false);
     const timer = React.useRef() as any;
-    const [sliderRef, slider]: [RefObject<any>, any] = useKeenSlider({
+    const [sliderRef, slider] = useKeenSlider({
         loop: true,
         duration: 2000,
-        dragStart: () => {
-            setPause(true);
+        slideChanged(s) {
+            setCurrentSlide(s.details().relativeSlide);
         },
-        dragEnd: () => {
-            setPause(false);
-        },
+        dragStart: () => setPause(true),
+        dragEnd: () => setPause(false),
     });
 
-    React.useEffect(() => {
-        sliderRef.current.addEventListener('mouseover', () => {
+    useEffect(() => {
+        sliderRef.current?.addEventListener('mouseover', () => {
             setPause(true);
         });
-        sliderRef.current.addEventListener('mouseout', () => {
+        sliderRef.current?.addEventListener('mouseout', () => {
             setPause(false);
         });
     }, [sliderRef]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         timer.current = setInterval(() => {
             if (!pause && slider) {
                 slider.next();
             }
-        }, 2000);
+        }, 5000);
         return () => {
             clearInterval(timer.current);
         };
     }, [pause, slider]);
 
     return (
-        <div className={styles.slider}>
-            <div ref={sliderRef} className="keen-slider slider">
-                <div className="keen-slider__slide number-slide1">1</div>
-                <div className="keen-slider__slide number-slide2">2</div>
-                <div className="keen-slider__slide number-slide3">3</div>
-                <div className="keen-slider__slide number-slide4">4</div>
-                <div className="keen-slider__slide number-slide5">5</div>
-                <div className="keen-slider__slide number-slide6">6</div>
+        <aside className={styles.sliderWap}>
+            <header ref={sliderRef} className={['keen-slider', styles.slider].join(' ')}>
+                {Array(6)
+                    .fill(0)
+                    .map((_, index) => (
+                        <div key={index} className={['keen-slider__slide', styles.item].join(' ')}>{index + 1}</div>
+                    ))}
+            </header>
+            <div className={styles.mask}>
+                {slider && (
+                    <div className={styles.dots}>
+                        {[...Array(slider.details().size).keys()].map(idx => {
+                            return (
+                                <span
+                                    key={idx}
+                                    onClick={() => {
+                                        slider.moveToSlideRelative(idx);
+                                    }}
+                                    className={[styles.dot, currentSlide === idx ? styles.active : ''].join(' ')}
+                                />
+                            );
+                        })}
+                    </div>
+                )}
             </div>
-        </div>
+        </aside>
     );
 }

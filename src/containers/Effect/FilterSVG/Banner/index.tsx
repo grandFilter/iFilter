@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { HomeIcon } from '@/components/Icon';
 import ActionSheet, { useActionSheet } from '@/components/ActionSheet';
 import { FilterContext } from '../FilterContext';
@@ -24,9 +24,11 @@ export default function Banner({ target }: { target: SVGSVGElement | null }) {
     return (
         <>
             <div className={styles.banner}>
-                <Link to="/" className={styles.homeIcon}>
-                    <HomeIcon />
-                </Link>
+                {!editing && (
+                    <Link to="/" className={styles.homeIcon}>
+                        <HomeIcon />
+                    </Link>
+                )}
                 <div className={styles.center}>{name}</div>
                 <div className={styles.right}>
                     {!editing && (
