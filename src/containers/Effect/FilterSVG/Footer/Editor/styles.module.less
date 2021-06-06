@@ -19,6 +19,41 @@
     }
 }
 
+.selectWrap {
+    position: relative;
+    width: 100%;
+    min-height: 80px;
+    margin-bottom: 20px;
+    label {
+        font-weight: 600;
+        font-size: 30px;
+        color: #fff;
+        padding: 20px 30px;
+        display: block;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        position: relative;
+        &::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: 30px;
+            transform: translateY(-50%);
+            border: 14px solid transparent;
+            border-top-color: #ddd;
+        }
+    }
+    select {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        opacity: 0;
+    }
+}
+
 .operator {
     position: absolute;
     top: 0;

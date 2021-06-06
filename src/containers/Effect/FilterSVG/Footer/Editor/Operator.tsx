@@ -40,45 +40,54 @@ export default function Operator({ type, onClose }: { type: string; onClose?: Fu
                 const onChange = (event: FormEvent<HTMLSelectElement>) =>
                     setCtx({ blendMode: event.currentTarget.value });
                 return (
-                    <select onChange={onChange} value={blendMode}>
-                        {blendModeList.map((name: string) => {
-                            return (
-                                <option key={name} value={name}>
-                                    {name}
-                                </option>
-                            );
-                        })}
-                    </select>
+                    <div className={styles.selectWrap}>
+                        <label>{blendMode}</label>
+                        <select onChange={onChange} value={blendMode}>
+                            {blendModeList.map((name: string) => {
+                                return (
+                                    <option key={name} value={name}>
+                                        {name}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                    </div>
                 );
             }
             case SVG_EDITOR_TYPE.Channel: {
                 const onChange = (event: FormEvent<HTMLSelectElement>) =>
                     setCtx({ grayscaleType: event.currentTarget.value });
                 return (
-                    <select onChange={onChange} value={grayscaleType}>
-                        {typesList.map(({ name, id }: any) => {
-                            return (
-                                <option key={id} value={id}>
-                                    {name}
-                                </option>
-                            );
-                        })}
-                    </select>
+                    <div className={styles.selectWrap}>
+                        <label>{typesList.find(i => i.id === grayscaleType)?.name || ''}</label>
+                        <select onChange={onChange} value={grayscaleType}>
+                            {typesList.map(({ name, id }: any) => {
+                                return (
+                                    <option key={id} value={id}>
+                                        {name}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                    </div>
                 );
             }
             case SVG_EDITOR_TYPE.Interpolation: {
                 const onChange = (event: FormEvent<HTMLSelectElement>) =>
                     setCtx({ colorInterpolationFilters: event.currentTarget.value });
                 return (
-                    <select onChange={onChange} value={colorInterpolationFilters}>
-                        {colorTypeList.map((name: string) => {
-                            return (
-                                <option key={name} value={name}>
-                                    {name}
-                                </option>
-                            );
-                        })}
-                    </select>
+                    <div className={styles.selectWrap}>
+                        <label>{colorInterpolationFilters}</label>
+                        <select onChange={onChange} value={colorInterpolationFilters}>
+                            {colorTypeList.map((name: string) => {
+                                return (
+                                    <option key={name} value={name}>
+                                        {name}
+                                    </option>
+                                );
+                            })}
+                        </select>
+                    </div>
                 );
             }
             default:
@@ -88,7 +97,7 @@ export default function Operator({ type, onClose }: { type: string; onClose?: Fu
 
     return (
         <div className={styles.operator}>
-            <div className={styles.slider}>{getOperator()}</div>
+            {getOperator()}
             <aside className={styles.aside}>
                 <button onClick={onCancel}>Cancel</button>
                 <button onClick={onDone}>Done</button>

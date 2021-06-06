@@ -21,7 +21,7 @@ export default function Banner({ target }: { target: SVGSVGElement | null }) {
             <div className={styles.right}>
                 {!editing && (
                     <button className={styles.save} onClick={() => onSave()}>
-                        Done
+                        Save
                     </button>
                 )}
             </div>
