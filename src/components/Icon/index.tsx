@@ -1,6 +1,6 @@
 import React from 'react';
 import { IDictionary } from '@/types';
-
+import { ReactComponent as Home } from '@/assets/svg/home.svg';
 import { ReactComponent as Plus } from '@/assets/svg/plus.svg';
 import { ReactComponent as Camera } from '@/assets/svg/camera.svg';
 import { ReactComponent as Transparency } from '@/assets/svg/transparency.svg';
@@ -19,6 +19,7 @@ function CreateAntIcon(Component: any) {
     );
 }
 
+export const HomeIcon = CreateAntIcon(Home);
 export const CameraIcon = CreateAntIcon(Camera);
 export const PlusIcon = CreateAntIcon(Plus);
 export const TransparencyIcon = CreateAntIcon(Transparency);
